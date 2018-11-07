@@ -1,0 +1,20 @@
+#include<iostream.h>
+#include<conio.h>
+
+void swapEvenOdd(int foo[], int bar){
+ int pos=1; while(pos<=bar){
+  if(pos%2==0 && pos!=bar){
+   int tmp = foo[pos-1];
+   foo[pos-1] = foo[pos];
+   foo[pos] = tmp;
+  } pos++;
+ }
+}
+
+void main(){
+ clrscr();
+ int x[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
+ swapEvenOdd(x, 10);
+ for(int i=0; i<10; i++){ cout << x[i] << ' '; }
+ getch();
+}
