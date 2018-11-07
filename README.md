@@ -15,9 +15,16 @@ Now, enter the complete location of the *root folder* on your filesystem in the 
 root=/Users/udit/Class12File
 ```
 
-##### Get started now, with:
+##### Get started now by running these commands:
 ```bash
-https://github.com/uditkarode/ucc
+sudo -s
+cd /tmp && git clone https://github.com/uditkarode/ucc.git
+mkdir ~/UCCRoot && cd ~/UCCRoot
+mkdir builds logs sources
+cp -r  /tmp/ucc/BIN .
+mv /tmp/ucc/ucc /bin/ucc && chmod +x /bin/ucc
+rm -r /tmp/ucc
+echo "Change the root variable in the file /bin/ucc to ~/UCCRoot, otherwise this script will NOT work."
 ```
 
 Here is the script command usage:
