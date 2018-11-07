@@ -8,7 +8,12 @@ To get started, create a directory anywhere on your disk, which will be your wor
 - sources/ (this will contain the C/CPP source code)
 - logs/ (this will contain the build and DosBox logs)
 
-Now, enter the complete location of the *root folder* on your filesystem in the file
+Now, enter the complete location of the *root folder* on your filesystem in the file *ucc*, as such:
+
+```bash
+#!CHANGE THIS TO YOUR ROOT FOLDER!
+root=/Users/udit/Class12File
+```
 
 Here is the script command usage:
 
