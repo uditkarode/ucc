@@ -1,8 +1,10 @@
 #!/bin/bash
 #@Author : Udit Karode <udit.karode@gmail.com>
 
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #!CHANGE THIS TO YOUR ROOT FOLDER!
 root=/Users/udit/Class12File
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 if [ "$#" == 0  ] || [ "$1" == "--help" ] || [ "$1" == "-h" ]
 then
@@ -17,9 +19,8 @@ then
 	echo "It is optional to run this script as root."
 	echo ""
 	echo "The system must have DOSBOX preinstalled."
-fi
 
-if [ "$#" == 2 ] && [ "$1" == "-b" ] || [ "$1" == "--build" ]
+elif [ "$#" == 2 ] && [ "$1" == "-b" ] || [ "$1" == "--build" ]
 then
 	echo "Doing magic with the file $2!"
 	echo ""
@@ -27,18 +28,24 @@ then
 	mkdir $root/.TEMPORARY_FOLDER_FOR_UKSCRIPT/TMPBUILDS
 	cp $root/sources/$2 $root/.TEMPORARY_FOLDER_FOR_UKSCRIPT/src.cpp
 	dosbox -c MOUNT\ C\ "$root" -c C: -c cd\ BIN -c tcc\ -IC:/BIN/\ -n../TEMPOR~1/TMPBUI~1/\ ../TEMPOR~1/src.cpp\>../logs/TCC.LOG -c exit > $root/logs/UCC-BUILD.LOG
-	mv $root/.TEMPORARY_FOLDER_FOR_UKSCRIPT/TMPBUILDS/*.EXE ~/Class12File/builds/$2.EXE
-	echo "~ Built with UCC ~" >> $root/logs/TCC.LOG
+	if [ "$(ls $root/.TEMPORARY_FOLDER_FOR_UKSCRIPT/TMPBUILDS)" == "" ]
+	then
+		echo "!! build failed !!"
+		echo "check log for more details"
+	else
+		echo "!! build successful !!"
+		mv $root/.TEMPORARY_FOLDER_FOR_UKSCRIPT/TMPBUILDS/*.EXE ~/Class12File/builds/$2.EXE
+		echo "~ Built with UCC ~" >> $root/logs/TCC.LOG
+	fi
 	rm -r $root/.TEMPORARY_FOLDER_FOR_UKSCRIPT
-	echo "!!! process completed !!!"
 	echo "-------------------------------"
 	cat $root/logs/TCC.LOG
 	echo "-------------------------------"
 
-fi
-
-if [ "$#" == 2 ] && [ "$1" == "-r" ] || [ "$1" == "--run" ]
+elif [ "$#" == 2 ] && [ "$1" == "-r" ] || [ "$1" == "--run" ]
 then
 	echo "Attempting to run $root/builds/$2"
 	dosbox -c MOUNT\ C\ "$root/builds/" -c C: -c $2 -c exit > $root/logs/UCC-RUN.LOG
+else
+        echo "wut?"
 fi
