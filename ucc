@@ -34,7 +34,7 @@ then
 		echo "check log for more details"
 	else
 		echo "!! build successful !!"
-		mv $root/.TEMPORARY_FOLDER_FOR_UKSCRIPT/TMPBUILDS/*.EXE ~/Class12File/builds/$2.EXE
+		mv $root/.TEMPORARY_FOLDER_FOR_UKSCRIPT/TMPBUILDS/*.EXE $root/builds/$2.EXE
 		echo "~ Built with UCC ~" >> $root/logs/TCC.LOG
 	fi
 	rm -r $root/.TEMPORARY_FOLDER_FOR_UKSCRIPT
