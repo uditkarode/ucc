@@ -1,6 +1,6 @@
-#UCC
+# UCC
 
-######This was built for the students of schools/colleges that still use TurboC++ and it's archaic code samples, and asks them to do the same. In order to use this, you need a Linux/Unix based system, or a Windows 10 installation with the Windows subsystem for Linux installed. You must have DosBox preinstalled on your system. It is not mandatory to run this script as a user with superuser privileges, but it is necessary for the user running the script to have access to the entirety of the required assets.
+###### This was built for the students of schools/colleges that still use TurboC++ and it's archaic code samples, and asks them to do the same. In order to use this, you need a Linux/Unix based system, or a Windows 10 installation with the Windows subsystem for Linux installed. You must have DosBox preinstalled on your system. It is not mandatory to run this script as a user with superuser privileges, but it is necessary for the user running the script to have access to the entirety of the required assets.
 
 To get started, create a directory anywhere on your disk, which will be your workplace. Let's call it the **root folder**. Add the *BIN* folder from this repository into your *root folder*. Also, inside the root folder, create three directories : 
 
