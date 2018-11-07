@@ -1,51 +1,69 @@
 #!/bin/bash
 #@Author : Udit Karode <udit.karode@gmail.com>
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#!CHANGE THIS TO YOUR ROOT FOLDER!
-root=/Users/udit/Class12File
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+ROOT_FILE=~/.__ucc_ws
 
-if [ "$#" == 0  ] || [ "$1" == "--help" ] || [ "$1" == "-h" ]
-then
-	echo "!USAGE! "
-	echo ""
-	echo "-b/--build <filename> : Builds the file, and places a DOS executable in builds/."
-	echo ""
-	echo "-r/--run <filename> : Runs the filename (if present) from builds/."
-	echo ""
-	echo " NOTE: Filenames longer than 8 characters should have the first 6 characters and ~1 attached. If the filename is longer than 8 characters but there is a dot(.) before the eighth character, place a '~1' after the filename before the dot."
-	echo ""
-	echo "It is optional to run this script as root."
-	echo ""
-	echo "The system must have DOSBOX preinstalled."
+if [ "$#" == 0  ] || [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
+        echo "!USAGE!"
+        echo ""
+        echo -e "${GREEN}-b/--build <filename>${NC} : Builds the file $root/sources/<filename>, and places a DOS executable in $root/builds/."
+        echo ""
+        echo -e "${GREEN}-r/--run <filename>${NC} : Runs the filename, if present, from $root/builds/."
+        echo ""
+        echo -e "${GREEN}-w/--workspace <folder-path>${NC} : Sets the workspace directory of UCC"
+        echo ""
+        echo "NOTE: Filenames longer than 8 characters should have the first 6 characters and ~1 attached. If the filename is longer than 8 characters but there is a dot (.) before the eighth character, place a '~1' after the filename before the dot."
+        echo ""
+        echo "It is optional to run this script as root."
+        echo ""
+        echo "The system must have DOSBOX preinstalled."
+	exit
+fi
 
-elif [ "$#" == 2 ] && [ "$1" == "-b" ] || [ "$1" == "--build" ]
-then
-	echo "Doing magic with the file $2!"
-	echo ""
-	mkdir $root/.TEMPORARY_FOLDER_FOR_UKSCRIPT
-	mkdir $root/.TEMPORARY_FOLDER_FOR_UKSCRIPT/TMPBUILDS
-	cp $root/sources/$2 $root/.TEMPORARY_FOLDER_FOR_UKSCRIPT/src.cpp
-	dosbox -c MOUNT\ C\ "$root" -c C: -c cd\ BIN -c tcc\ -IC:/BIN/\ -n../TEMPOR~1/TMPBUI~1/\ ../TEMPOR~1/src.cpp\>../logs/TCC.LOG -c exit > $root/logs/UCC-BUILD.LOG
-	if [ "$(ls $root/.TEMPORARY_FOLDER_FOR_UKSCRIPT/TMPBUILDS)" == "" ]
-	then
-		echo "!! build failed !!"
-		echo "check log for more details"
+if [ "$#" == 2 ] && [ "$1" == "-w" ] || [ "$1" == "--workspace" ]; then
+        echo $2 > ~/.__ucc_ws
+	exit
+fi
+
+if [ -f "$ROOT_FILE" ]; then
+	root=$(cat ~/.__ucc_ws)	
+else
+	echo -e "${RED}FATAL ERROR${NC}: The workspace is undefined. To define the workspace folder, use the -w/--workspace flag."
+	exit
+fi 
+
+if [ "$#" == 2 ] && [ "$1" == "-b" ] || [ "$1" == "--build" ]; then
+	if [ -f "$root/sources/$2" ]; then
+		echo "Doing magic with the file $2!"
+		echo ""
+		mkdir $root/.UCC
+		mkdir $root/.UCC/TMPBUILDS
+		cp $root/sources/$2 $root/.UCC/src.cpp
+		dosbox -c MOUNT\ C\ "$root" -c C: -c cd\ BIN -c tcc\ -IC:\\BIN\\\ -n..\\.UCC\\TMPBUI~1\\\ ..\\.UCC\\src.cpp\>..\\logs\\TCC.LOG -c exit > $root/logs/UCC-BUILD.LOG
+		if [ "$(ls $root/.UCC/TMPBUILDS)" == "" ]; then
+			echo -e "${RED}!! build failed !!${NC}"
+			echo "check log for more details"
+		else
+			echo -e "${GREEN}!! build successful !!${NC}"
+			mv $root/.UCC/TMPBUILDS/*.EXE $root/builds/$2.EXE>&-
+			echo "	~ Built with UCC ~" >> $root/logs/TCC.LOG
+		fi
+		rm -r $root/.UCC
+		echo "-------------------------------"
+		cat $root/logs/TCC.LOG
+		echo "-------------------------------"
+
 	else
-		echo "!! build successful !!"
-		mv $root/.TEMPORARY_FOLDER_FOR_UKSCRIPT/TMPBUILDS/*.EXE $root/builds/$2.EXE
-		echo "~ Built with UCC ~" >> $root/logs/TCC.LOG
+		echo -e "${RED}FATAL ERROR${NC}: The file '$root/sources/$2' does not exist!"
 	fi
-	rm -r $root/.TEMPORARY_FOLDER_FOR_UKSCRIPT
-	echo "-------------------------------"
-	cat $root/logs/TCC.LOG
-	echo "-------------------------------"
 
-elif [ "$#" == 2 ] && [ "$1" == "-r" ] || [ "$1" == "--run" ]
-then
+elif [ "$#" == 2 ] && [ "$1" == "-r" ] || [ "$1" == "--run" ]; then
 	echo "Attempting to run $root/builds/$2"
 	dosbox -c MOUNT\ C\ "$root/builds/" -c C: -c $2 -c exit > $root/logs/UCC-RUN.LOG
+
 else
-        echo "wut?"
+        echo -e "${RED}Invalid parameters${NC}. Use the flag ${GREEN}--help${NC} for usage instructions."
 fi
