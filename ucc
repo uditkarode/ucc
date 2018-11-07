@@ -25,6 +25,7 @@ fi
 
 if [ "$#" == 2 ] && [ "$1" == "-w" ] || [ "$1" == "--workspace" ]; then
         echo $2 > ~/.__ucc_ws
+	echo "Workspace directory set to $2"
 	exit
 fi
 
