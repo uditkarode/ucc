@@ -6,7 +6,7 @@
 #   you may not use this file except in compliance with the License.
 #   You may obtain a copy of the License at
 #
-#       http://www.apache.org/licenses/LICENSE-2.0
+#   http://www.apache.org/licenses/LICENSE-2.0
 #
 #   Unless required by applicable law or agreed to in writing, software
 #   distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,6 +18,7 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m'
 ROOT_FILE=~/.__ucc_ws
+VERSION='1.0'
 
 if [ "$#" == 0  ] || [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
         echo "!USAGE!"
@@ -27,12 +28,10 @@ if [ "$#" == 0  ] || [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
         echo -e "${GREEN}-r/--run <filename>${NC} : Runs the filename, if present, from $root/builds/."
         echo ""
         echo -e "${GREEN}-w/--workspace <folder-path>${NC} : Sets the workspace directory of UCC"
-        echo ""
-        echo "NOTE: Filenames longer than 8 characters should have the first 6 characters and ~1 attached. If the filename is longer than 8 characters but there is a dot (.) before the eighth character, place a '~1' after the filename before the dot."
-        echo ""
-        echo "It is optional to run this script as root."
-        echo ""
-        echo "The system must have DOSBOX preinstalled."
+	echo ""
+        echo -e "${GREEN}-v/--version${NC} : Prints the installed version of UCC."
+	echo ""
+        echo -e "${GREEN}--update${NC} : Updates UCC if a new version is available."
 	exit
 fi
 
@@ -75,9 +74,43 @@ if [ "$#" == 2 ] && [ "$1" == "-b" ] || [ "$1" == "--build" ]; then
 	fi
 
 elif [ "$#" == 2 ] && [ "$1" == "-r" ] || [ "$1" == "--run" ]; then
-	echo "Attempting to run $root/builds/$2"
-	dosbox -c MOUNT\ C\ "$root/builds/" -c C: -c $2 -c exit > $root/logs/UCC-RUN.LOG
+	if [ -f "$root/builds/$2" ]; then
+		cp $root/builds/$2 $root/files/$2
+		tmpstr=${2%%.*}
+		suffix="~1"
+		if(( ${#2} > 6 )); then
+			dosname="${tmpstr:0:6}"
+			dosname="$dosname$suffix"
+		else
+			dosname="$tmpstr"
+		fi	
+		echo $dosname
+		dosbox -c MOUNT\ C\ "$root/files/" -c C: -c $dosname -c exit > $root/logs/UCC-RUN.LOG
+		rm $root/files/$2
+	else
+		echo -e "${RED}FATAL ERROR${NC}: The file '$root/builds/$2' does not exist!"
+	fi
 
+elif [ "$#" == 1 ] && [ "$1" == "-v" ] || [ "$1" == "--version" ]; then
+	echo "UCC Version ${VERSION}"
+
+
+elif [ "$#" == 1 ] && [ "$1" == "--update" ]; then
+	if [ ! $(curl https://uditkarode.github.io/ucc/version) == ${VERSION} ]; then
+		cd /tmp
+		wget https://raw.githubusercontent.com/uditkarode/ucc/master/ucc
+		if [ -f "/tmp/ucc" ]; then
+			echo "";
+			echo -e "${GREEN}Update successful!${NC}"
+			echo ""
+			mv ucc /bin/ucc
+		else
+			echo -e "${RED}Update failed! Check your internet connection."
+		fi
+	else
+		echo ""
+		echo -e "${GREEN}You are already on the latest version of UCC.${NC}"
+	fi
 else
         echo -e "${RED}Invalid parameters${NC}. Use the flag ${GREEN}--help${NC} for usage instructions."
 fi
