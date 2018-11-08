@@ -105,7 +105,7 @@ elif [ "$#" == 1 ] && [ "$1" == "--update" ]; then
 			echo ""
 			mv ucc /bin/ucc
 		else
-			echo -e "${RED}Update failed! Check your internet connection."
+			echo -e "${RED}Update failed! Check your internet connection.${NC}"
 		fi
 	else
 		echo ""
