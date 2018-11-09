@@ -19,7 +19,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m'
 ROOT_FILE=~/.__ucc_ws
-VERSION='1.2'
+VERSION='popol'
 
 if [ "$#" == 2 ] && [ "$1" == "-w" ] || [ "$1" == "--workspace" ]; then
         cd $2
@@ -110,13 +110,16 @@ elif [ "$#" == 1 ] && [ "$1" == "-v" ] || [ "$1" == "--version" ]; then
 
 
 elif [ "$#" == 1 ] && [ "$1" == "--update" ]; then
-	if [ ! $(curl https://uditkarode.github.io/ucc/version) == ${VERSION} ]; then
+	if [ ! $(curl -s https://uditkarode.github.io/ucc/version) == ${VERSION} ]; then
 		if [ "$EUID" -ne 0 ]; then
 			echo "${YELLOW}INFO: The update function needs root privileges.${NC}"
 			sudo -s
 		fi
-		cd /tmp; rm ucc
-		wget https://raw.githubusercontent.com/uditkarode/ucc/master/ucc
+		cd /tmp
+		if [ -f "/tmp/ucc" ]; then
+			rm /tmp/ucc
+		fi
+		wget -q https://raw.githubusercontent.com/uditkarode/ucc/master/ucc
 		if [ -f "/tmp/ucc" ]; then
 			echo "";
 			echo -e "${GREEN}Update successful!${NC}"
