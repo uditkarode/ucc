@@ -114,7 +114,8 @@ elif [ "$#" == 1 ] && [ "$1" == "--update" ]; then
 			echo "${YELLOW}INFO: The update function needs root privileges.${NC}"
 			sudo -s
 		fi
-		cd /tmp; rm ucc
+		cd /tmp
+		rm ucc > /dev/null
 		wget https://raw.githubusercontent.com/uditkarode/ucc/master/ucc
 		if [ -f "/tmp/ucc" ]; then
 			echo "";
