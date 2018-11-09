@@ -16,9 +16,24 @@
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
 NC='\033[0m'
 ROOT_FILE=~/.__ucc_ws
-VERSION='1.0'
+VERSION='1.1'
+
+if [ "$#" == 2 ] && [ "$1" == "-w" ] || [ "$1" == "--workspace" ]; then
+        cd $2
+	echo $(pwd) > $ROOT_FILE
+        echo "Workspace directory set to $(cat $ROOT_FILE)"
+        exit
+fi
+
+if [ -f "$ROOT_FILE" ]; then
+        root=$(cat $ROOT_FILE)
+else
+        echo -e "${RED}FATAL ERROR${NC}: The workspace is undefined. To define the workspace folder, use the -w/--workspace flag."
+        exit
+fi
 
 if [ "$#" == 0  ] || [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
         echo "!USAGE!"
@@ -27,6 +42,8 @@ if [ "$#" == 0  ] || [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
         echo ""
         echo -e "${GREEN}-r/--run <filename>${NC} : Runs the filename, if present, from $root/builds/."
         echo ""
+        echo -e "${GREEN}-br <filename>${NC} : Builds the filename from $root/sources, and if successful, runs the build seamlessly."
+	echo ""
         echo -e "${GREEN}-w/--workspace <folder-path>${NC} : Sets the workspace directory of UCC"
 	echo ""
         echo -e "${GREEN}-v/--version${NC} : Prints the installed version of UCC."
@@ -35,39 +52,35 @@ if [ "$#" == 0  ] || [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
 	exit
 fi
 
-if [ "$#" == 2 ] && [ "$1" == "-w" ] || [ "$1" == "--workspace" ]; then
-        echo $2 > ~/.__ucc_ws
-	echo "Workspace directory set to $2"
-	exit
-fi
-
-if [ -f "$ROOT_FILE" ]; then
-	root=$(cat ~/.__ucc_ws)	
-else
-	echo -e "${RED}FATAL ERROR${NC}: The workspace is undefined. To define the workspace folder, use the -w/--workspace flag."
-	exit
-fi 
-
-if [ "$#" == 2 ] && [ "$1" == "-b" ] || [ "$1" == "--build" ]; then
+if [ "$#" == 2 ] && [ "$1" == "-b" ] || [ "$1" == "--build" ] || [ "$1" == "-br" ]; then
 	if [ -f "$root/sources/$2" ]; then
-		echo "Doing magic with the file $2!"
+		echo "compiling and linking $2..."
 		echo ""
 		mkdir $root/.UCC
 		mkdir $root/.UCC/TMPBUILDS
 		cp $root/sources/$2 $root/.UCC/src.cpp
 		dosbox -c MOUNT\ C\ "$root" -c C: -c cd\ BIN -c tcc\ -IC:\\BIN\\\ -n..\\.UCC\\TMPBUI~1\\\ ..\\.UCC\\src.cpp\>..\\logs\\TCC.LOG -c exit > $root/logs/UCC-BUILD.LOG
 		if [ "$(ls $root/.UCC/TMPBUILDS)" == "" ]; then
+			build='failed'
 			echo -e "${RED}!! build failed !!${NC}"
-			echo "check log for more details"
+			echo ""
+			echo -e "${YELLOW}printing $root/logs/TCC.LOG${NC}"
+			echo "-------------------------------"
+			cat $root/logs/TCC.LOG
+        	        echo "-------------------------------"
 		else
+			build='successful'
 			echo -e "${GREEN}!! build successful !!${NC}"
+			echo ""
 			mv $root/.UCC/TMPBUILDS/*.EXE $root/builds/$2.EXE>&-
 			echo "	~ Built with UCC ~" >> $root/logs/TCC.LOG
 		fi
 		rm -r $root/.UCC
-		echo "-------------------------------"
-		cat $root/logs/TCC.LOG
-		echo "-------------------------------"
+		
+		if [ "$1" == "-br" ] && [ "$build" == "successful" ]; then
+			echo -e "${YELLOW}INFO: build-run flag detected, running $2"".EXE${NC}"
+			ucc --run "$2"".EXE"
+		fi
 
 	else
 		echo -e "${RED}FATAL ERROR${NC}: The file '$root/sources/$2' does not exist!"
@@ -84,7 +97,7 @@ elif [ "$#" == 2 ] && [ "$1" == "-r" ] || [ "$1" == "--run" ]; then
 		else
 			dosname="$tmpstr"
 		fi	
-		echo $dosname
+		echo -e "${YELLOW}INFO: Executing DOS file $dosname${NC}"
 		dosbox -c MOUNT\ C\ "$root/files/" -c C: -c $dosname -c exit > $root/logs/UCC-RUN.LOG
 		rm $root/files/$2
 	else
@@ -92,7 +105,7 @@ elif [ "$#" == 2 ] && [ "$1" == "-r" ] || [ "$1" == "--run" ]; then
 	fi
 
 elif [ "$#" == 1 ] && [ "$1" == "-v" ] || [ "$1" == "--version" ]; then
-	echo "UCC Version ${VERSION}"
+	echo -e "${YELLOW}INFO:${NC} UCC Version ${VERSION}"
 
 
 elif [ "$#" == 1 ] && [ "$1" == "--update" ]; then
@@ -105,7 +118,7 @@ elif [ "$#" == 1 ] && [ "$1" == "--update" ]; then
 			echo ""
 			mv ucc /bin/ucc
 		else
-			echo -e "${RED}Update failed! Check your internet connection.${NC}"
+			echo -e "${RED}Update failed! Check your internet connection."
 		fi
 	else
 		echo ""
