@@ -19,7 +19,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m'
 ROOT_FILE=~/.__ucc_ws
-VERSION='popol'
+VERSION='1.3'
 
 if [ "$#" == 2 ] && [ "$1" == "-w" ] || [ "$1" == "--workspace" ]; then
         cd $2
