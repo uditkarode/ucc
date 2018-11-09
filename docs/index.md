@@ -1,6 +1,6 @@
 # UCC
 
-#### This was built for the students of schools/colleges that still use TurboC++ and teach it's archaic code samples, and asks its students to do the same. In order to use this, you need a Linux/Unix based system that can run DosBox. You must have DosBox preinstalled on your system. It is not mandatory to run this script as a user with superuser privileges, but it is necessary for the user running the script to have access to the entirety of the required assets.
+#### This was built for the students of schools/colleges that still use TurboC++ and teach it's archaic code samples, and ask its students to do the same. In order to use this, you need a Linux/Unix based system that can run DosBox. You must have DosBox preinstalled on your system. It is not mandatory to run this script as a user with superuser privileges, but it is necessary for the user running the script to have access to the entirety of the required assets.
 
 To get started, create a directory anywhere on your disk, which will be your workplace. Let's call it the **workspace**. Add the *BIN* folder from this repository into your *workspace*. Also, inside the workspace, create four directories : 
 
