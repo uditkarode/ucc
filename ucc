@@ -110,12 +110,17 @@ elif [ "$#" == 1 ] && [ "$1" == "-v" ] || [ "$1" == "--version" ]; then
 
 elif [ "$#" == 1 ] && [ "$1" == "--update" ]; then
 	if [ ! $(curl https://uditkarode.github.io/ucc/version) == ${VERSION} ]; then
-		cd /tmp
+		if [ "$EUID" -ne 0 ]; then
+			echo "${YELLOW}INFO: The update function needs root privileges.${NC}"
+			sudo -s
+		fi
+		cd /tmp; rm ucc
 		wget https://raw.githubusercontent.com/uditkarode/ucc/master/ucc
 		if [ -f "/tmp/ucc" ]; then
 			echo "";
 			echo -e "${GREEN}Update successful!${NC}"
 			echo ""
+			chmod +x ucc
 			mv ucc /bin/ucc
 		else
 			echo -e "${RED}Update failed! Check your internet connection."
