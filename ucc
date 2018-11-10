@@ -19,7 +19,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m'
 ROOT_FILE=~/.__ucc_ws
-VERSION='1.3'
+VERSION='1.4'
 
 if [ "$#" == 2 ] && [ "$1" == "-w" ] || [ "$1" == "--workspace" ]; then
         cd $2
@@ -74,6 +74,14 @@ if [ "$#" == 2 ] && [ "$1" == "-b" ] || [ "$1" == "--build" ] || [ "$1" == "-br"
 			echo ""
 			mv $root/.UCC/TMPBUILDS/*.EXE $root/builds/$2.EXE>&-
 			echo "	~ Built with UCC ~" >> $root/logs/TCC.LOG
+
+			if [ ! "$(cat $root/logs/TCC.LOG | grep 'Warning')"  == "" ]; then
+				grep '^Warning' $root/logs/TCC.LOG > $root/.ucc/.__warnings
+				echo -e "${YELLOW}INFO: Compiler warning(s) found in build: ${RED}"
+				echo ""
+				cat $root/.ucc/.__warnings
+				echo -e "${NC}"
+			fi
 		fi
 		rm -r $root/.UCC
 		
