@@ -19,7 +19,11 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m'
 ROOT_FILE=~/.__ucc_ws
-VERSION='1.4'
+VERSION='1.5'
+
+if [ "$(which dosbox)" == "" ]; then
+        echo -e "${RED}FATAL ERROR${NC}: DosBox executable not found."; exit
+fi
 
 if [ "$#" == 2 ] && [ "$1" == "-w" ] || [ "$1" == "--workspace" ]; then
         cd $2
@@ -32,7 +36,7 @@ if [ -f "$ROOT_FILE" ]; then
         root=$(cat $ROOT_FILE)
 else
         echo -e "${RED}FATAL ERROR${NC}: The workspace is undefined. To define the workspace folder, use the -w/--workspace flag."
-        exit
+	exit
 fi
 
 if [ "$#" == 0  ] || [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
