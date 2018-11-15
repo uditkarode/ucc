@@ -19,9 +19,9 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m'
 ROOT_FILE=~/.__ucc_ws
-VERSION='1.5'
+VERSION='1.6'
 
-if [ "$(which dosbox)" == "" ]; then
+if [ "$(which dosbox)" == "" ] && [ ! -f "/bin/dosbox" ]; then
         echo -e "${RED}FATAL ERROR${NC}: DosBox executable not found."; exit
 fi
 
