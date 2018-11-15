@@ -142,7 +142,6 @@ elif [ "$#" == 1 ] && [ "$1" == "--update" ]; then
 			echo -e "${RED}Update failed! Check your internet connection.${NC}"
 		fi
 	else
-		echo ""
 		echo -e "${GREEN}You are already on the latest version of UCC.${NC}"
 	fi
 else
