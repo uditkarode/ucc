@@ -25,6 +25,14 @@ if [ "$(which dosbox)" == "" ] && [ ! -f "/bin/dosbox" ]; then
         echo -e "${RED}FATAL ERROR${NC}: DosBox executable not found."; exit
 fi
 
+if [ "$(which wget)" == "" ] && [ ! -f "/bin/wget" ]; then
+        echo -e "${RED}FATAL ERROR${NC}: Wget executable not found."; exit
+fi
+
+if [ "$(which curl)" == "" ] && [ ! -f "/bin/curl" ]; then
+        echo -e "${RED}FATAL ERROR${NC}: Curl executable not found."; exit
+fi
+
 if [ "$#" == 2 ] && [ "$1" == "-w" ] || [ "$1" == "--workspace" ]; then
         cd $2
 	echo $(pwd) > $ROOT_FILE
