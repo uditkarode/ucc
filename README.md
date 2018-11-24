@@ -21,6 +21,7 @@ ucc --workspace /Users/udit/myProjects
 cd ~
 mkdir UCCRoot && cd UCCRoot
 ucc --setup .
+ucc --workspace .
 ```
 
 For instructions on usage of the script, use `ucc --help`
