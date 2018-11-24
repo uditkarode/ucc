@@ -19,7 +19,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m'
 ROOT_FILE=~/.__ucc_ws
-VERSION='1.9'
+VERSION='2.0'
 
 #We need the dependencies pre-installed
 function check_installed() {
