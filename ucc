@@ -19,7 +19,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m'
 ROOT_FILE=~/.__ucc_ws
-VERSION='1.8'
+VERSION='1.9'
 
 #We need the dependencies pre-installed
 function check_installed() {
@@ -56,6 +56,11 @@ function show_help(){
 	exit
 }
 
+#In case the user enters unknown parameters
+function inv_params() {
+	echo -e "${RED}Invalid parameters${NC}. Use the flag ${GREEN}--help${NC} for usage instructions."
+}
+
 check_installed dosbox ; check_installed wget ; check_installed curl ; check_ws_defined
 
 #Parse the arguments
@@ -71,7 +76,12 @@ case "$#" in
 			;;
 
 			"-v"|"--version")
-				echo -e "${YELLOW}INFO:${NC} UCC Version ${VERSION}"
+				echo -e "${YELLOW}INFO:${NC} UCC v${VERSION}"
+				echo
+				echo "Copyright 2018 Udit Karode:"
+				echo "Licensed under the Apache License, Version 2.0 (the "License")."
+				echo "You may not use this file except in compliance with the License."
+				echo
 			;;
 
 			"-u"|"--update")
@@ -98,6 +108,25 @@ case "$#" in
 					echo -e "${GREEN}You are already on the latest version of UCC.${NC}"
 				fi
 			;;
+
+			"-s"|"--setup")
+				echo -e "${YELLOW}INFO: This will create the necessary folders in the current directory to make it usable as a UCC workspace."
+				echo -e "${NC}Continue? (yes/no)" ; read userconf
+
+				if [ "$userconf" != "yes" ]; then
+					exit
+				fi
+
+				git clone https://github.com/uditkarode/ucc.git
+				mv ucc/BIN .
+				rm -r ucc
+				mkdir builds logs files sources
+				echo -e "${GREEN}Folder is ready for use as workspace!${NC}"
+			;;
+
+			*)
+				inv_params
+			;;
 		esac
 	;;
 
@@ -106,7 +135,7 @@ case "$#" in
 				"-w"|"--workspace")
 					cd $2
 				echo $(pwd) > $ROOT_FILE
-					echo "${YELLOW}INFO: Workspace directory set to $(cat $ROOT_FILE)${NC}"
+					echo -e "${YELLOW}INFO${NC}: Workspace directory set to $(cat $ROOT_FILE)"
 					exit
 			;;
 
@@ -125,7 +154,7 @@ case "$#" in
 						echo -e "${YELLOW}INFO: Printing $root/logs/TCC.LOG${NC}"
 						echo -e "${YELLOW}-------------------------------${NC}"
 						cat $root/logs/TCC.LOG
-								echo -e "${YELLOW}-------------------------------${NC}"
+						echo -e "${YELLOW}-------------------------------${NC}"
 					else
 						build='successful'
 						echo -e "${GREEN}!! build successful !!${NC}"
@@ -172,11 +201,15 @@ case "$#" in
 							echo -e "${RED}FATAL ERROR${NC}: The file '$root/builds/$2' does not exist!"
 				fi
 			;;
+
+			*)
+				inv_params
+			;;
 		esac
 	;;
 
 	*)
-		echo -e "${RED}Invalid parameters${NC}. Use the flag ${GREEN}--help${NC} for usage instructions."
+		inv_params
 	;;
 esac
 
