@@ -53,6 +53,8 @@ function show_help(){
 	echo
 	echo -e "${GREEN}-u/--update${NC} : Updates UCC if a new version is available."
 	echo
+	echo -e "${GREEN}-s/--setup${NC} : Adds folders required in a UCC workspace. This does ${RED}NOT${NC} also automatically make it the workspace."
+        echo
 	exit
 }
 
