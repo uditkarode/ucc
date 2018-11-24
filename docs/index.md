@@ -15,19 +15,12 @@ Now, set the complete location of the *workspace*, as such:
 ucc --workspace /Users/udit/myProjects
 ```
 
-##### These commands below will do the heavylifting for you. You can copy and paste them to your terminal directly. After executing them, your workspace will be ~/UCCRoot :
+##### These commands below will do the heavylifting for you. You can copy and paste them to your terminal directly. Input 'yes' if asked. After executing them, your workspace will be ~/UCCRoot :
 
 ```bash
-cd /tmp
-sudo git clone https://github.com/uditkarode/ucc.git
-mkdir ~/UCCRoot && cd ~/UCCRoot
-mkdir builds logs sources files
-cp -r  /tmp/ucc/BIN .
-sudo mv /tmp/ucc/ucc /bin/ucc
-sudo chmod +x /bin/ucc
-sudo rm -r /tmp/ucc
-ucc --workspace ~/UCCRoot 
-;
+cd ~
+mkdir UCCRoot && cd UCCRoot
+ucc --setup .
 ```
 
 For instructions on usage of the script, use `ucc --help`
