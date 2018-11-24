@@ -24,7 +24,7 @@ VERSION='1.8'
 #We need the dependencies pre-installed
 function check_installed() {
 	if [ "$(which ${1})" == "" ] && [ ! -f "/bin/${1}" ]; then
-        	echo -e "${RED}FATAL ERROR${NC}: ${1^} executable not found."; exit
+        echo -e "${RED}FATAL ERROR${NC}: ${1^} executable not found."; exit
 	fi
 }
 
@@ -33,15 +33,14 @@ function check_ws_defined() {
 	if [ -f "$ROOT_FILE" ]; then
   		root=$(cat $ROOT_FILE)
 	else
-       		echo -e "${RED}FATAL ERROR${NC}: The workspace is undefined. To define the workspace folder, use the -w/--workspace flag."
-        	exit
+       	echo -e "${RED}FATAL ERROR${NC}: The workspace is undefined. To define the workspace folder, use the -w/--workspace flag."
+        exit
 	fi
 }
 
 #Instructions on how to use this wonderful tool :D
 function show_help(){
-	echo "!USAGE!"
-        echo
+    echo
 	echo -e "${GREEN}-b/--build ${YELLOW}<filename>${NC} : Builds the file $root/sources/<filename>, and places a DOS executable in $root/builds/."
 	echo
 	echo -e "${GREEN}-r/--run ${YELLOW}<filename>${NC} : Runs the filename, if present, from $root/builds/."
