@@ -19,139 +19,165 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m'
 ROOT_FILE=~/.__ucc_ws
-VERSION='1.7'
+VERSION='1.8'
 
-if [ "$(which dosbox)" == "" ] && [ ! -f "/bin/dosbox" ]; then
-        echo -e "${RED}FATAL ERROR${NC}: DosBox executable not found."; exit
-fi
+#We need the dependencies pre-installed
+function check_installed() {
+	if [ "$(which ${1})" == "" ] && [ ! -f "/bin/${1}" ]; then
+        	echo -e "${RED}FATAL ERROR${NC}: ${1^} executable not found."; exit
+	fi
+}
 
-if [ "$(which wget)" == "" ] && [ ! -f "/bin/wget" ]; then
-        echo -e "${RED}FATAL ERROR${NC}: Wget executable not found."; exit
-fi
+#A workspace needs to be defined to work on
+function check_ws_defined() {
+	if [ -f "$ROOT_FILE" ]; then
+  		root=$(cat $ROOT_FILE)
+	else
+       		echo -e "${RED}FATAL ERROR${NC}: The workspace is undefined. To define the workspace folder, use the -w/--workspace flag."
+        	exit
+	fi
+}
 
-if [ "$(which curl)" == "" ] && [ ! -f "/bin/curl" ]; then
-        echo -e "${RED}FATAL ERROR${NC}: Curl executable not found."; exit
-fi
-
-if [ "$#" == 2 ] && [ "$1" == "-w" ] || [ "$1" == "--workspace" ]; then
-        cd $2
-	echo $(pwd) > $ROOT_FILE
-        echo "${YELLOW}INFO: Workspace directory set to $(cat $ROOT_FILE)"
-        exit
-fi
-
-if [ -f "$ROOT_FILE" ]; then
-        root=$(cat $ROOT_FILE)
-else
-        echo -e "${RED}FATAL ERROR${NC}: The workspace is undefined. To define the workspace folder, use the -w/--workspace flag."
+#Instructions on how to use this wonderful tool :D
+function show_help(){
+	echo "!USAGE!"
+        echo
+	echo -e "${GREEN}-b/--build ${YELLOW}<filename>${NC} : Builds the file $root/sources/<filename>, and places a DOS executable in $root/builds/."
+	echo
+	echo -e "${GREEN}-r/--run ${YELLOW}<filename>${NC} : Runs the filename, if present, from $root/builds/."
+	echo
+	echo -e "${GREEN}-br/--build-run ${YELLOW}<filename>${NC} : Builds the filename from $root/sources, and if successful, runs the build seamlessly."
+	echo
+	echo -e "${GREEN}-w/--workspace ${YELLOW}<folder-path>${NC} : Sets the workspace directory of UCC"
+	echo
+	echo -e "${GREEN}-v/--version${NC} : Prints the installed version of UCC."
+	echo
+	echo -e "${GREEN}-u/--update${NC} : Updates UCC if a new version is available."
+	echo
 	exit
-fi
+}
 
-if [ "$#" == 0  ] || [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
-        echo "!USAGE!"
-        echo ""
-        echo -e "${GREEN}-b/--build ${YELLOW}<filename>${NC} : Builds the file $root/sources/<filename>, and places a DOS executable in $root/builds/."
-        echo ""
-        echo -e "${GREEN}-r/--run ${YELLOW}<filename>${NC} : Runs the filename, if present, from $root/builds/."
-        echo ""
-        echo -e "${GREEN}-br ${YELLOW}<filename>${NC} : Builds the filename from $root/sources, and if successful, runs the build seamlessly."
-	echo ""
-        echo -e "${GREEN}-w/--workspace ${YELLOW}<folder-path>${NC} : Sets the workspace directory of UCC"
-	echo ""
-        echo -e "${GREEN}-v/--version${NC} : Prints the installed version of UCC."
-	echo ""
-        echo -e "${GREEN}--update${NC} : Updates UCC if a new version is available."
-	exit
-fi
+check_installed dosbox ; check_installed wget ; check_installed curl ; check_ws_defined
 
-if [ "$#" == 2 ] && [ "$1" == "-b" ] || [ "$1" == "--build" ] || [ "$1" == "-br" ]; then
-	if [ -f "$root/sources/$2" ]; then
-		echo -e "${YELLOW}INFO: Compiling and linking $2...${NC}"
-		echo ""
-		mkdir $root/.UCC
-		mkdir $root/.UCC/TMPBUILDS
-		cp $root/sources/$2 $root/.UCC/src.cpp
-		SDL_VIDEODRIVER='dummy' dosbox -c MOUNT\ C\ "$root" -c C: -c cd\ BIN -c tcc\ -IC:\\BIN\\\ -n..\\.UCC\\TMPBUI~1\\\ ..\\.UCC\\src.cpp\>..\\logs\\TCC.LOG -c exit > $root/logs/UCC-BUILD.LOG
-		if [ "$(ls $root/.UCC/TMPBUILDS)" == "" ]; then
-			build='failed'
-			echo -e "${RED}!! build failed !!${NC}"
-			echo ""
-			echo -e "${YELLOW}INFO: Printing $root/logs/TCC.LOG${NC}"
-			echo -e "${YELLOW}-------------------------------${NC}"
-			cat $root/logs/TCC.LOG
-        	        echo -e "${YELLOW}-------------------------------${NC}"
-		else
-			build='successful'
-			echo -e "${GREEN}!! build successful !!${NC}"
-			echo ""
-			mv $root/.UCC/TMPBUILDS/*.EXE $root/builds/$2.EXE>&-
-			echo "	~ Built with UCC ~" >> $root/logs/TCC.LOG
+#Parse the arguments
+case "$#" in
+	"0")
+		show_help
+	;;
 
-			if [ ! "$(cat $root/logs/TCC.LOG | grep 'Warning')"  == "" ]; then
-				grep '^Warning' $root/logs/TCC.LOG > $root/.ucc/.__warnings
-				echo -e "${YELLOW}INFO: Compiler warning(s) found in build: ${RED}"
-				echo ""
-				cat $root/.ucc/.__warnings
-				echo -e "${NC}"
-			fi
-		fi
-		rm -r $root/.UCC
-		
-		if [ "$1" == "-br" ] && [ "$build" == "successful" ]; then
-			echo -e "${YELLOW}INFO: build-run flag detected, running $2"".EXE${NC}"
-			ucc --run "$2"".EXE"
-		fi
+	"1")
+		case "$1" in
+			"-h"|"--help")
+				show_help
+			;;
 
-	else
-		echo -e "${RED}FATAL ERROR${NC}: The file '$root/sources/$2' does not exist!"
-	fi
+			"-v"|"--version")
+				echo -e "${YELLOW}INFO:${NC} UCC Version ${VERSION}"
+			;;
 
-elif [ "$#" == 2 ] && [ "$1" == "-r" ] || [ "$1" == "--run" ]; then
-	if [ -f "$root/builds/$2" ]; then
-		cp $root/builds/$2 $root/files/$2
-		tmpstr=${2%%.*}
-		suffix="~1"
-		if(( ${#2} > 6 )); then
-			dosname="${tmpstr:0:6}"
-			dosname="$dosname$suffix"
-		else
-			dosname="$tmpstr"
-		fi	
-		echo -e "${YELLOW}INFO: Executing DOS file $dosname${NC}"
-		SDL_VIDEODRIVER=''
-		dosbox -c MOUNT\ C\ "$root/files/" -c C: -c $dosname -c exit > $root/logs/UCC-RUN.LOG
-		rm $root/files/$2
-	else
-		echo -e "${RED}FATAL ERROR${NC}: The file '$root/builds/$2' does not exist!"
-	fi
+			"-u"|"--update")
+				if [ ! $(curl -s https://uditkarode.github.io/ucc/version) == ${VERSION} ]; then
+					if [ "$EUID" -ne 0 ]; then
+						echo -e "${YELLOW}INFO: The update function needs root privileges.${NC}"
+						sudo echo "Privileges granted."
+					fi
+					cd /tmp
+					if [ -f "/tmp/ucc" ]; then
+						sudo rm /tmp/ucc
+					fi
+					sudo wget -q https://raw.githubusercontent.com/uditkarode/ucc/master/ucc
+					if [ -f "/tmp/ucc" ]; then
+						echo;
+						echo -e "${GREEN}Update successful!${NC}"
+						echo
+						sudo chmod +x ucc
+						sudo mv ucc /bin/ucc
+					else
+						echo -e "${RED}Update failed! Check your internet connection.${NC}"
+					fi
+				else
+					echo -e "${GREEN}You are already on the latest version of UCC.${NC}"
+				fi
+			;;
+		esac
+	;;
 
-elif [ "$#" == 1 ] && [ "$1" == "-v" ] || [ "$1" == "--version" ]; then
-	echo -e "${YELLOW}INFO:${NC} UCC Version ${VERSION}"
+	"2")
+		case "$1" in
+				"-w"|"--workspace")
+					cd $2
+				echo $(pwd) > $ROOT_FILE
+					echo "${YELLOW}INFO: Workspace directory set to $(cat $ROOT_FILE)${NC}"
+					exit
+			;;
 
+			"-b"|"--build"|"-br"|"--build-run")
+				if [ -f "$root/sources/$2" ]; then
+					echo -e "${YELLOW}INFO: Compiling and linking $2...${NC}"
+					echo
+					mkdir $root/.UCC
+					mkdir $root/.UCC/TMPBUILDS
+					cp $root/sources/$2 $root/.UCC/src.cpp
+					SDL_VIDEODRIVER='dummy' dosbox -c MOUNT\ C\ "$root" -c C: -c cd\ BIN -c tcc\ -IC:\\BIN\\\ -n..\\.UCC\\TMPBUI~1\\\ ..\\.UCC\\src.cpp\>..\\logs\\TCC.LOG -c exit > $root/logs/UCC-BUILD.LOG
+					if [ "$(ls $root/.UCC/TMPBUILDS)" == "" ]; then
+						build='failed'
+						echo -e "${RED}!! build failed !!${NC}"
+						echo
+						echo -e "${YELLOW}INFO: Printing $root/logs/TCC.LOG${NC}"
+						echo -e "${YELLOW}-------------------------------${NC}"
+						cat $root/logs/TCC.LOG
+								echo -e "${YELLOW}-------------------------------${NC}"
+					else
+						build='successful'
+						echo -e "${GREEN}!! build successful !!${NC}"
+						echo
+						mv $root/.UCC/TMPBUILDS/*.EXE $root/builds/$2.EXE>&-
+						echo "	~ Built with UCC ~" >> $root/logs/TCC.LOG
+			
+						if [ ! "$(cat $root/logs/TCC.LOG | grep 'Warning')"  == "" ]; then
+							grep '^Warning' $root/logs/TCC.LOG > $root/.ucc/.__warnings
+							echo -e "${YELLOW}INFO: Compiler warning(s) found in build: ${RED}"
+							echo
+							cat $root/.ucc/.__warnings
+							echo -e "${NC}"
+						fi
+					fi
+					rm -r $root/.UCC
+					
+					if [ "$1" == "-br" ] && [ "$build" == "successful" ]; then
+						echo -e "${YELLOW}INFO: build-run flag detected, running $2"".EXE${NC}"
+						ucc --run "$2"".EXE"
+					fi
+			
+				else
+					echo -e "${RED}FATAL ERROR${NC}: The file '$root/sources/$2' does not exist!"
+				fi
+			;;
 
-elif [ "$#" == 1 ] && [ "$1" == "--update" ]; then
-	if [ ! $(curl -s https://uditkarode.github.io/ucc/version) == ${VERSION} ]; then
-		if [ "$EUID" -ne 0 ]; then
-			echo -e "${YELLOW}INFO: The update function needs root privileges.${NC}"
-			sudo echo "Privileges granted."
-		fi
-		cd /tmp
-		if [ -f "/tmp/ucc" ]; then
-			sudo rm /tmp/ucc
-		fi
-		sudo wget -q https://raw.githubusercontent.com/uditkarode/ucc/master/ucc
-		if [ -f "/tmp/ucc" ]; then
-			echo "";
-			echo -e "${GREEN}Update successful!${NC}"
-			echo ""
-			sudo chmod +x ucc
-			sudo mv ucc /bin/ucc
-		else
-			echo -e "${RED}Update failed! Check your internet connection.${NC}"
-		fi
-	else
-		echo -e "${GREEN}You are already on the latest version of UCC.${NC}"
-	fi
-else
-        echo -e "${RED}Invalid parameters${NC}. Use the flag ${GREEN}--help${NC} for usage instructions."
-fi
+			"-r"|"--run")
+				if [ -f "$root/builds/$2" ]; then
+						cp $root/builds/$2 $root/files/$2
+							tmpstr=${2%%.*}
+							suffix="~1"
+							if(( ${#2} > 6 )); then
+									dosname="${tmpstr:0:6}"
+									dosname="$dosname$suffix"
+							else
+									dosname="$tmpstr"
+							fi
+							echo -e "${YELLOW}INFO: Executing DOS file $dosname${NC}"
+							SDL_VIDEODRIVER=''
+							dosbox -c MOUNT\ C\ "$root/files/" -c C: -c $dosname -c exit > $root/logs/UCC-RUN.LOG
+							rm $root/files/$2
+					else
+							echo -e "${RED}FATAL ERROR${NC}: The file '$root/builds/$2' does not exist!"
+				fi
+			;;
+		esac
+	;;
+
+	*)
+		echo -e "${RED}Invalid parameters${NC}. Use the flag ${GREEN}--help${NC} for usage instructions."
+	;;
+esac
+
