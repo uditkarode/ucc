@@ -20,7 +20,7 @@ ucc --workspace /Users/udit/myProjects
 ```bash
 cd ~
 mkdir UCCRoot && cd UCCRoot
-ucc --init .
+ucc init
 ucc --workspace .
 ```
 

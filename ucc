@@ -19,7 +19,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m'
 ROOT_FILE=~/.__ucc_ws
-VERSION='2.0'
+VERSION='2.1'
 
 #We need the dependencies pre-installed
 function check_installed() {
@@ -87,10 +87,10 @@ case "$#" in
 			;;
 
 			"-u"|"--update")
-				if [ ! $(curl -i https://uditkarode.github.io/ucc/version) == ${VERSION} ]; then
+				if [ ! "$(curl -i https://uditkarode.github.io/ucc/version)" == ${VERSION} ]; then
 					if [ "$EUID" -ne 0 ]; then
-						echo -e "${YELLOW}INFO: The update function needs root privileges.${NC}"
-						sudo echo "Privileges granted."
+						echo -e "${YELLOW}INFO: The update function needs superuser privileges.${NC}"
+						sudo echo "Superuser privileges granted."
 					fi
 					cd /tmp
 					if [ -f "/tmp/ucc" ]; then
@@ -121,7 +121,7 @@ case "$#" in
 
 				git clone https://github.com/uditkarode/ucc.git
 				mv ucc/BIN .
-				rm -r ucc
+				rm -rf ucc
 				mkdir builds logs files sources
 				echo -e "${GREEN}Folder is ready for use as workspace!${NC}"
 			;;
