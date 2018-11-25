@@ -53,7 +53,7 @@ function show_help(){
 	echo
 	echo -e "${GREEN}-u/--update${NC} : Updates UCC if a new version is available."
 	echo
-	echo -e "${GREEN}-i/--init ${YELLOW} <folder-path>${NC} : Initiates a UCC workspace at the provided folder path. This does ${RED}NOT${NC} also automatically make it the workspace."
+	echo -e "${GREEN}-i/--init/init ${YELLOW} <folder-path>${NC} : Initiates a UCC workspace at the provided folder path. This does ${RED}NOT${NC} also automatically make it the workspace."
         echo
 	exit
 }
@@ -111,7 +111,7 @@ case "$#" in
 				fi
 			;;
 
-			"-i"|"--init")
+			"-i"|"--init"|"init")
 				echo -e "${YELLOW}INFO: This will initiate a UCC workspace in the current directory."
 				echo -e "${NC}Continue? (${GREEN}yes${NC}/${RED}no${NC})" ; read userconf
 
