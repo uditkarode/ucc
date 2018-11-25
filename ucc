@@ -40,7 +40,7 @@ function check_ws_defined() {
 
 #Instructions on how to use this wonderful tool :D
 function show_help(){
-    echo
+    	echo
 	echo -e "${GREEN}-b/--build ${YELLOW}<filename>${NC} : Builds the file $root/sources/<filename>, and places a DOS executable in $root/builds/."
 	echo
 	echo -e "${GREEN}-r/--run ${YELLOW}<filename>${NC} : Runs the filename, if present, from $root/builds/."
@@ -53,7 +53,7 @@ function show_help(){
 	echo
 	echo -e "${GREEN}-u/--update${NC} : Updates UCC if a new version is available."
 	echo
-	echo -e "${GREEN}-s/--setup${NC} : Adds folders required in a UCC workspace. This does ${RED}NOT${NC} also automatically make it the workspace."
+	echo -e "${GREEN}-i/--init ${YELLOW} <folder-path>${NC} : Initiates a UCC workspace at the provided folder path. This does ${RED}NOT${NC} also automatically make it the workspace."
         echo
 	exit
 }
@@ -87,7 +87,7 @@ case "$#" in
 			;;
 
 			"-u"|"--update")
-				if [ ! $(curl -s https://uditkarode.github.io/ucc/version) == ${VERSION} ]; then
+				if [ ! $(curl -i https://uditkarode.github.io/ucc/version) == ${VERSION} ]; then
 					if [ "$EUID" -ne 0 ]; then
 						echo -e "${YELLOW}INFO: The update function needs root privileges.${NC}"
 						sudo echo "Privileges granted."
@@ -111,9 +111,9 @@ case "$#" in
 				fi
 			;;
 
-			"-s"|"--setup")
-				echo -e "${YELLOW}INFO: This will create the necessary folders in the current directory to make it usable as a UCC workspace."
-				echo -e "${NC}Continue? (yes/no)" ; read userconf
+			"-i"|"--init")
+				echo -e "${YELLOW}INFO: This will initiate a UCC workspace in the current directory."
+				echo -e "${NC}Continue? (${GREEN}yes${NC}/${RED}no${NC})" ; read userconf
 
 				if [ "$userconf" != "yes" ]; then
 					exit
