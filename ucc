@@ -63,7 +63,7 @@ function inv_params() {
 	echo -e "${RED}Invalid parameters${NC}. Use the flag ${GREEN}--help${NC} for usage instructions."
 }
 
-check_installed dosbox ; check_installed wget ; check_installed curl ; check_ws_defined
+check_installed dosbox ; check_installed wget ; check_installed curl
 
 #Parse the arguments
 case "$#" in
@@ -136,12 +136,13 @@ case "$#" in
 		case "$1" in
 				"-w"|"--workspace")
 					cd $2
-				echo $(pwd) > $ROOT_FILE
+					echo $(pwd) > $ROOT_FILE
 					echo -e "${YELLOW}INFO${NC}: Workspace directory set to $(cat $ROOT_FILE)"
 					exit
 			;;
 
 			"-b"|"--build"|"-br"|"--build-run")
+				check_ws_defined
 				if [ -f "$root/sources/$2" ]; then
 					echo -e "${YELLOW}INFO: Compiling and linking $2...${NC}"
 					echo
@@ -185,6 +186,7 @@ case "$#" in
 			;;
 
 			"-r"|"--run")
+				check_ws_defined
 				if [ -f "$root/builds/$2" ]; then
 						cp $root/builds/$2 $root/files/$2
 							tmpstr=${2%%.*}
