@@ -87,7 +87,7 @@ case "$#" in
 			;;
 
 			"-u"|"--update")
-				if [ ! "$(curl -i https://uditkarode.github.io/ucc/version)" == ${VERSION} ]; then
+				if [ ! "$(curl -s https://uditkarode.github.io/ucc/version)" == ${VERSION} ]; then
 					if [ "$EUID" -ne 0 ]; then
 						echo -e "${YELLOW}INFO: The update function needs superuser privileges.${NC}"
 						sudo echo "Superuser privileges granted."
@@ -119,7 +119,7 @@ case "$#" in
 					exit
 				fi
 
-				git clone https://github.com/uditkarode/ucc.git
+				git clone https://github.com/uditkarode/ucc.git/
 				mv ucc/BIN .
 				rm -rf ucc
 				mkdir builds logs files sources
