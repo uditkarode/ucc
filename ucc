@@ -228,7 +228,7 @@ case "$#" in
 							fi
 							echo -e "${YELLOW}INFO: Executing DOS file $dosname${NC}"
 							dosbox -c MOUNT\ C\ "$root/files/" -c C: -c $dosname -c exit > $root/logs/UCC-RUN.LOG
-							rm $root/files/$2
+							rm $root/files/$2 $root/files/EGAVGA.BGI
 					else
 							echo -e "${RED}FATAL ERROR${NC}: The file '$root/builds/$2' does not exist!"
 				fi
