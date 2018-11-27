@@ -40,7 +40,7 @@ function check_ws_defined() {
 
 #Instructions on how to use this wonderful tool :D
 function show_help(){
-    	echo
+    	echo -e "Usage: ucc [option] [argument]\n"
 	echo -e "${GREEN}-b/--build ${YELLOW}<filename>${NC} : Builds the file $root/sources/<filename>, and places a DOS executable in $root/builds/."
 	echo
 	echo -e "${GREEN}-r/--run ${YELLOW}<filename>${NC} : Runs the filename, if present, from $root/builds/."
@@ -77,13 +77,14 @@ case "$#" in
 				show_help
 			;;
 
+			"-w"|"--workspace")
+				check_ws_defined
+				echo "Workspace is set to: $(cat ~/.__ucc_ws)"
+			;;
+
 			"-v"|"--version")
-				echo -e "${YELLOW}INFO:${NC} UCC v${VERSION}"
-				echo
-				echo "Copyright 2018 Udit Karode:"
-				echo "Licensed under the Apache License, Version 2.0 (the "License")."
-				echo "You may not use this file except in compliance with the License."
-				echo
+				echo -e "${YELLOW}INFO: ${NC}UCC v${GREEN}${VERSION}${NC}"
+				echo -e "  ${YELLOW}╦ ╦╔═╗╔═╗\n  ║ ║║  ║  \n  ╚═╝╚═╝╚═╝${NC}"
 			;;
 
 			"-u"|"--update")
@@ -134,11 +135,34 @@ case "$#" in
 
 	"2")
 		case "$1" in
-				"-w"|"--workspace")
+			"-w"|"--workspace")
 					cd $2
 					echo $(pwd) > $ROOT_FILE
 					echo -e "${YELLOW}INFO${NC}: Workspace directory set to $(cat $ROOT_FILE)"
 					exit
+			;;
+
+			"-s"|"--specific")
+				check_ws_defined
+				if [ -f "$2" ]; then
+					cp ${2} ${root}/sources/SPECIFIC-${2}
+					ucc -b SPECIFIC-${2}
+					rm ${root}/sources/SPECIFIC-${2}
+				else
+					echo -e "${RED}FATAL ERROR${NC}: $(pwd)/${2} does not exist!"
+				fi
+			;;
+
+			"-sr"|"--specific-run")
+				check_ws_defined
+                                if [ -f "$2" ]; then
+                                        cp ${2} ${root}/sources/SPECIFIC-${2}
+                                        ucc -br SPECIFIC-${2}
+					rm ${root}/sources/SPECIFIC-${2}
+                                else
+                                        echo -e "${RED}FATAL ERROR${NC}: $(pwd)/${2} does not exist!"
+                                fi
+
 			;;
 
 			"-b"|"--build"|"-br"|"--build-run")
