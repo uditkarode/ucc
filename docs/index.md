@@ -24,6 +24,8 @@ ucc init
 ucc --workspace .
 ```
 
+After setting up UCC, you can compile and run your programs with a command as simple as `ucc -br program.cpp`!
+
 For instructions on usage of the script, use `ucc --help`
 
 In the words of Bob the Builder:
