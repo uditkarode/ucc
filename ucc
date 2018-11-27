@@ -19,7 +19,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m'
 ROOT_FILE=~/.__ucc_ws
-VERSION='2.1'
+VERSION='2.2'
 
 #We need the dependencies pre-installed
 function check_installed() {
@@ -102,7 +102,7 @@ case "$#" in
 						sudo rm /tmp/ucc
 					fi
 					sudo wget -q https://raw.githubusercontent.com/uditkarode/ucc/master/ucc
-					if [ -f "/tmp/ucc" ]; then
+				if [ -f "/tmp/ucc" ]; then
 						echo;
 						echo -e "${GREEN}Update successful!${NC}"
 						echo
@@ -177,7 +177,7 @@ case "$#" in
 					mkdir $root/.UCC
 					mkdir $root/.UCC/TMPBUILDS
 					cp $root/sources/$2 $root/.UCC/src.cpp
-					SDL_VIDEODRIVER='dummy' dosbox -c MOUNT\ C\ "$root" -c C: -c cd\ BIN -c tcc\ -IC:\\BIN\\\ -n..\\.UCC\\TMPBUI~1\\\ ..\\.UCC\\src.cpp\>..\\logs\\TCC.LOG -c exit > $root/logs/UCC-BUILD.LOG
+					SDL_VIDEODRIVER='dummy' dosbox -c MOUNT\ C\ "$root" -c C: -c cd\ BIN -c tcc\ -n..\\.UCC\\TMPBUI~1\\\ ..\\.UCC\\src.cpp\ GRAPHICS.LIB\>..\\logs\\TCC.LOG -c exit > $root/logs/UCC-BUILD.LOG
 					if [ "$(ls $root/.UCC/TMPBUILDS)" == "" ]; then
 						build='failed'
 						echo -e "${RED}!! build failed !!${NC}"
@@ -226,7 +226,6 @@ case "$#" in
 									dosname="$tmpstr"
 							fi
 							echo -e "${YELLOW}INFO: Executing DOS file $dosname${NC}"
-							SDL_VIDEODRIVER=''
 							dosbox -c MOUNT\ C\ "$root/files/" -c C: -c $dosname -c exit > $root/logs/UCC-RUN.LOG
 							rm $root/files/$2
 					else
