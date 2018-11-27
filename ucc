@@ -19,7 +19,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m'
 ROOT_FILE=~/.__ucc_ws
-VERSION='2.2'
+VERSION='2.3'
 
 #We need the dependencies pre-installed
 function check_installed() {
@@ -217,6 +217,7 @@ case "$#" in
 				check_ws_defined
 				if [ -f "$root/builds/$2" ]; then
 						cp $root/builds/$2 $root/files/$2
+						cp $root/BIN/EGAVGA.BGI $root/files/
 							tmpstr=${2%%.*}
 							suffix="~1"
 							if(( ${#2} > 6 )); then
