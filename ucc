@@ -47,13 +47,17 @@ function show_help(){
 	echo
 	echo -e "${GREEN}-br/--build-run ${YELLOW}<filename>${NC} : Builds the filename from $root/sources, and if successful, runs the build seamlessly."
 	echo
-	echo -e "${GREEN}-w/--workspace ${YELLOW}<folder-path>${NC} : Sets the workspace directory of UCC"
-	echo
-	echo -e "${GREEN}-v/--version${NC} : Prints the installed version of UCC."
-	echo
-	echo -e "${GREEN}-u/--update${NC} : Updates UCC if a new version is available."
-	echo
 	echo -e "${GREEN}-i/--init/init ${YELLOW} <folder-path>${NC} : Initiates a UCC workspace at the provided folder path. This does ${RED}NOT${NC} also automatically make it the workspace."
+	echo
+	echo -e "${GREEN}-s/--specific ${YELLOW}<filename>${NC} : Builds the filename from the directory of execution."
+        echo
+	echo -e "${GREEN}-sr/--specific-run ${YELLOW}<filename>${NC} : Builds the filename from the directory of execution, and if successful, runs the build seamlessly."
+        echo
+	echo -e "${GREEN}-w/--workspace ${YELLOW}<folder-path>${NC} : Sets the workspace directory of UCC"
+        echo
+        echo -e "${GREEN}-v/--version${NC} : Prints the installed version of UCC."
+        echo
+        echo -e "${GREEN}-u/--update${NC} : Updates UCC if a new version is available."
         echo
 	exit
 }
