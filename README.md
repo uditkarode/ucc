@@ -9,6 +9,7 @@ To get started, create a directory anywhere on your disk, which will be your wor
 - sources/ (this will contain the C/CPP source code)
 - logs/ (this will contain the build and DosBox logs)
 - files/ (this will contain the files created through C/C++ using filestreams)
+- headers/ (this will contain your custom header files)
 
 Now, set the complete location of the *workspace*, as such:
 

@@ -19,7 +19,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m'
 ROOT_FILE=~/.__ucc_ws
-VERSION='2.3'
+VERSION='2.4'
 
 #We need the dependencies pre-installed
 function check_installed() {
@@ -127,7 +127,7 @@ case "$#" in
 				git clone https://github.com/uditkarode/ucc.git/
 				mv ucc/BIN .
 				rm -rf ucc
-				mkdir builds logs files sources
+				mkdir builds logs files sources headers
 				echo -e "${GREEN}Folder is ready for use as workspace!${NC}"
 			;;
 
