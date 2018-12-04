@@ -24,9 +24,10 @@ ucc --workspace /Users/udit/myProjects
 cd ~
 git clone https://github.com/uditkarode/ucc.git/
 sudo mv ucc/ucc /bin/ucc
-rm -rf ucc
 mkdir UCCRoot && cd UCCRoot
-ucc init
+mv ~/ucc/BIN .
+mkdir builds sources logs files headers
+rm -rf ~/ucc
 ucc --workspace .
 ```
 
