@@ -1,5 +1,5 @@
 @echo off
 
 cd assets
-bash ucc --build
+bash ucc -gb
 pause
