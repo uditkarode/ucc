@@ -54,13 +54,59 @@ case "$#" in
 				echo -e "\nWorkspace initiated.\n"
 			;;
 
-			"-b"|"--build"|"-br")
+			"-gb")
 				echo -e "\nEnter the filename to compile:\n"
 				read fn
 				if [ -f "$root/sources/${fn}.txt" ]; then
 					mv $root/sources/${fn}.txt $root/sources/${fn}
 				fi
 				check_exists $root/sources/${fn}
+				cd assets
+				./ucc --build $fn
+			;;
+
+			"-gr")
+				echo -e "\nEnter the filename to run:\n"
+				read fn
+				check_exists $root/builds/${fn}
+				cd $root/assets
+				./ucc --run $fn
+			;;
+			
+			"-gbr")
+				echo -e "\nEnter the filename to compile:\n"
+				read fn
+				if [ -f "$root/sources/${fn}.txt" ]; then
+					mv $root/sources/${fn}.txt $root/sources/${fn}
+				fi
+				check_exists $root/sources/${fn}
+				cd assets
+				./ucc -br $fn
+			;;
+
+			"-h"|"--help")
+				show_help
+			;;
+
+			*)
+				inv_params
+			;;
+		esac
+	;;
+
+	"2")
+		case "$1" in
+			"--run")
+				check_exists $root/builds/${2}
+				cp $root/builds/$2 $root/files/RUN.EXE
+				cp $root/BIN/EGAVGA.BGI $root/files/
+				echo -e "INFO: Executing DOS file $2"
+				dosbox -c MOUNT\ C\ "$root" -c C: -c cd\ files -c RUN -c exit
+				rm $root/files/RUN.EXE
+				rm $root/files/EGAVGA.BGI
+			;;
+			
+			"-b"|"--build"|"-br")
 				echo
 				mkdir $root/.UCC
 				mkdir $root/.UCC/TMPBUILDS
@@ -97,36 +143,6 @@ case "$#" in
 					cd $root/assets
 					./ucc --specrun "$fn"".EXE"
 				fi
-			;;
-
-			"-r"|"--run")
-				echo -e "\nEnter the filename to run:\n"
-				read fn
-				check_exists $root/builds/${fn}
-				cd $root/assets
-				./ucc --specrun $fn
-			;;
-
-			"-h"|"--help")
-				show_help
-			;;
-
-			*)
-				inv_params
-			;;
-		esac
-	;;
-
-	"2")
-		case "$1" in
-			"--specrun")
-				check_exists $root/builds/${2}
-				cp $root/builds/$2 $root/files/RUN.EXE
-				cp $root/BIN/EGAVGA.BGI $root/files/
-				echo -e "INFO: Executing DOS file $2"
-				dosbox -c MOUNT\ C\ "$root" -c C: -c cd\ files -c RUN -c exit
-				rm $root/files/RUN.EXE
-				rm $root/files/EGAVGA.BGI
 			;;
 
 			*)
