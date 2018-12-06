@@ -1,3 +1,3 @@
 @echo off
 
-bash ucc --run
+bash ucc -gr
