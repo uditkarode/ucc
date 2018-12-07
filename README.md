@@ -33,7 +33,7 @@ bash ucc -br abc.cpp
 
 After executing UCC-INIT, you will have the five directories. You know what to do next.
 
-#### POSIX:
+#### *NIX:
 
 ###### MANUAL METHOD:
 To get started, create a directory anywhere on your disk, which will be your workplace. Let's call it the **workspace**. Add the *BIN* folder from this repository into your *workspace*. Also, inside the workspace, create the five directories mentioned above.
