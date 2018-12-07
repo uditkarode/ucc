@@ -99,7 +99,7 @@ case "$#" in
 				cp $root/builds/$2 $root/files/RUN.EXE
 				cp $root/BIN/EGAVGA.BGI $root/files/
 				echo -e "INFO: Executing DOS file $2"
-				dosbox -c MOUNT\ C\ "$root" -c C: -c cd\ files -c RUN -c exit
+				dosbox -noconsole -c MOUNT\ C\ "$root" -c C: -c cd\ files -c RUN -c exit
 				rm $root/files/RUN.EXE
 				rm $root/files/EGAVGA.BGI
 			;;
@@ -110,7 +110,7 @@ case "$#" in
 				mkdir $root/.UCC/TMPBUILDS
 				cp $root/sources/$2 $root/.UCC/src.cpp
 				export SDL_VIDEODRIVER="dummy"
-				dosbox -c MOUNT\ C\ "$root" -c C: -c cd\ BIN -c tcc\ -n..\\.UCC\\TMPBUI~1\\\ ..\\.UCC\\src.cpp\ GRAPHICS.LIB\>..\\logs\\TCC.LOG -c exit
+				dosbox -noconsole -c MOUNT\ C\ "$root" -c C: -c cd\ BIN -c tcc\ -n..\\.UCC\\TMPBUI~1\\\ ..\\.UCC\\src.cpp\ GRAPHICS.LIB\>..\\logs\\TCC.LOG -c exit
 				export SDL_VIDEODRIVER="directx"
 				
 				if [ -z "$(ls $root/.UCC/TMPBUILDS)" ]; then
