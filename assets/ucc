@@ -47,7 +47,6 @@ case "$#" in
 			;;
 
 			"-i"|"--init"|"init")
-				cp $root/assets/ucc C:/Windows/System32/ucc
 				mkdir builds logs files sources headers
 				rm $root/UCC-INIT.bat
 				echo -e "\nWorkspace initiated.\n"
