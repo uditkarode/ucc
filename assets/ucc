@@ -47,10 +47,8 @@ case "$#" in
 			;;
 
 			"-i"|"--init"|"init")
-				git clone https://github.com/uditkarode/ucc.git
-				mv ucc/BIN .
-				rm -rf ucc
 				mkdir builds logs files sources headers
+				rm $root/UCC-INIT.bat
 				echo -e "\nWorkspace initiated.\n"
 			;;
 
@@ -110,11 +108,12 @@ case "$#" in
 				echo
 				mkdir $root/.UCC
 				mkdir $root/.UCC/TMPBUILDS
-				cp $root/sources/$fn $root/.UCC/src.cpp
+				cp $root/sources/$2 $root/.UCC/src.cpp
 
 				dosbox -c MOUNT\ C\ "$root" -c C: -c cd\ BIN -c tcc\ -n..\\.UCC\\TMPBUI~1\\\ ..\\.UCC\\src.cpp\ GRAPHICS.LIB\>..\\logs\\TCC.LOG -c exit
 					
-				if [ -z "$(ls $root/.UCC/TMPBUILDS)" ]; then						build='failed'
+				if [ -z "$(ls $root/.UCC/TMPBUILDS)" ]; then
+					build='failed'
 					echo -e "\n!! build failed !!\n"
 					echo
 					echo -e "\nINFO: Printing $root/logs/TCC.LOG\n"
@@ -125,15 +124,15 @@ case "$#" in
 					build='successful'
 					echo -e "\n!! build successful !!\n"
 					echo
-					mv $root/.UCC/TMPBUILDS/*.EXE $root/builds/$fn.EXE>&-
+					mv $root/.UCC/TMPBUILDS/*.EXE $root/builds/$2.EXE>&-
 					echo "	~ Built with UCC ~" >> $root/logs/TCC.LOG
 			
 					if [ ! -z "$(cat $root/logs/TCC.LOG | grep 'Warning')" ]; then
 						grep '^Warning' $root/logs/TCC.LOG > $root/.ucc/.__warnings
-						echo -e "${YELLOW}INFO: Compiler warning(s) found in build: ${RED}"
+						echo -e "INFO: Compiler warning(s) found in build: "
 						echo
 						cat $root/.ucc/.__warnings
-						echo -e "${NC}"
+						echo -e "\n"
 					fi
 				fi
 				
@@ -141,7 +140,7 @@ case "$#" in
 				if [ "$1" = "-br" ] && [ "$build" = "successful" ]; then
 					echo -e "\nINFO: build-run flag detected, running $fn"".EXE\n"
 					cd $root/assets
-					./ucc --specrun "$fn"".EXE"
+					./ucc --run "$2"".EXE"
 				fi
 			;;
 
