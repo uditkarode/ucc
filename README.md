@@ -13,9 +13,11 @@
 #### WINDOWS:
 Since most of Windows users do not have git, I zipped the files of the `windows` branch and added it to this repo.
 
-To install UCC for Windows, download https://uditkarode.github.io/ucc/ucc-windows.zip
-Wherever you extract this will be your workspace
-After extraction, *you must run `UCC-INIT.bat`*. The file will set up the directory and automatically remove itself.
+To install UCC for Windows, download https://uditkarode.github.io/ucc/ucc-windows.zip.
+
+Wherever you extract this will be your workspace.
+
+After extraction, **you must run** `UCC-INIT.bat`. The file will set up the directory and automatically remove itself.
 
 You can now use `UCC-BUILD.bat`, `UCC-RUN.bat`, or `UCC-BUILD-RUN.bat` to compile, run, or compile and seamlessly run respectively.
 
