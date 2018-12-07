@@ -114,7 +114,7 @@ case "$#" in
 					
 				if [ -z "$(ls $root/.UCC/TMPBUILDS)" ]; then
 					build='failed'
-					echo -e "\n!! build failed !!\n"
+					echo -e "\n!! build failed !!"
 					echo
 					echo -e "\nINFO: Printing $root/logs/TCC.LOG\n"
 					echo -e "-------------------------------\n"
@@ -122,7 +122,7 @@ case "$#" in
 					echo -e "\n------------------------------"
 				else
 					build='successful'
-					echo -e "\n!! build successful !!\n"
+					echo -e "!! build successful !!\n"
 					echo
 					mv $root/.UCC/TMPBUILDS/*.EXE $root/builds/$2.EXE>&-
 					echo "	~ Built with UCC ~" >> $root/logs/TCC.LOG
@@ -132,7 +132,6 @@ case "$#" in
 						echo -e "INFO: Compiler warning(s) found in build: "
 						echo
 						cat $root/.ucc/.__warnings
-						echo -e "\n"
 					fi
 				fi
 				
