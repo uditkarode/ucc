@@ -22,7 +22,8 @@ After extraction, **you must run** `UCC-INIT.bat`. The file will set up the dire
 You can now use `UCC-BUILD.bat`, `UCC-RUN.bat`, or `UCC-BUILD-RUN.bat` to compile, run, or compile and seamlessly run respectively.
 
 If you prefer direct command line usage, you can change directory to the assets folder and use ucc this way:
-```bash ucc --build abc.cpp
+```bash
+bash ucc --build abc.cpp
 bash ucc --run abc.cpp.EXE
 
 --OR--
