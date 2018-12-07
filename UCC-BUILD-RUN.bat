@@ -2,4 +2,3 @@
 
 cd assets
 bash ucc -gbr
-pause
