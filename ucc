@@ -40,7 +40,7 @@ function check_ws_defined() {
 
 #Instructions on how to use this wonderful tool :D
 function show_help(){
-    echo -e "Usage: ucc [option] [argument]\n"
+    	echo -e "Usage: ucc [option] [argument]\n"
 	echo -e "${GREEN}-b/--build ${YELLOW}<filename>${NC} : Builds the file $root/sources/<filename>, and places a DOS executable in $root/builds/."
 	echo
 	echo -e "${GREEN}-r/--run ${YELLOW}<filename>${NC} : Runs the filename, if present, from $root/builds/."
@@ -50,15 +50,15 @@ function show_help(){
 	echo -e "${GREEN}-i/--init/init ${YELLOW} <folder-path>${NC} : Initiates a UCC workspace at the provided folder path. This does ${RED}NOT${NC} also automatically make it the workspace."
 	echo
 	echo -e "${GREEN}-s/--specific ${YELLOW}<filename>${NC} : Builds the filename from the directory of execution."
-    echo
+    	echo
 	echo -e "${GREEN}-sr/--specific-run ${YELLOW}<filename>${NC} : Builds the filename from the directory of execution, and if successful, runs the build seamlessly."
-    echo
+    	echo
 	echo -e "${GREEN}-w/--workspace ${YELLOW}<folder-path>${NC} : Sets the workspace directory of UCC"
-    echo
-    echo -e "${GREEN}-v/--version${NC} : Prints the installed version of UCC."
-    echo
-    echo -e "${GREEN}-u/--update${NC} : Updates UCC if a new version is available."
-    echo
+    	echo
+	echo -e "${GREEN}-v/--version${NC} : Prints the installed version of UCC."
+	echo
+	echo -e "${GREEN}-u/--update${NC} : Updates UCC if a new version is available."
+	echo
 	exit
 }
 
@@ -222,7 +222,7 @@ case "$#" in
 						suffix="~1"
 						if(( ${#2} > 6 )); then
 							dosname="${tmpstr:0:6}"
-							dosname="$dosname$suffix"
+							dosname="${dosname}${suffix}"
 						else
 							dosname="$tmpstr"
 						fi
