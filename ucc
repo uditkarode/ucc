@@ -24,7 +24,7 @@ VERSION='2.4'
 #We need the dependencies pre-installed
 function check_installed() {
 	if [ "$(which ${1})" = "" ] && [ ! -f "/bin/${1}" ]; then
-    	echo -e "${RED}FATAL ERROR${NC}: ${1^} executable not found."; exit
+    		echo -e "${RED}FATAL ERROR${NC}: ${1^} executable not found."; exit
 	fi
 }
 
@@ -33,8 +33,8 @@ function check_ws_defined() {
 	if [ -f "$ROOT_FILE" ]; then
   		root=$(cat $ROOT_FILE)
 	else
-    	echo -e "${RED}FATAL ERROR${NC}: The workspace is undefined. To define the workspace folder, use the -w/--workspace flag."
-    	exit
+    		echo -e "${RED}FATAL ERROR${NC}: The workspace is undefined. To define the workspace folder, use the -w/--workspace flag."
+    		exit
 	fi
 }
 
@@ -140,10 +140,10 @@ case "$#" in
 	"2")
 		case "$1" in
 			"-w"|"--workspace")
-					cd $2
-					echo $(pwd) > $ROOT_FILE
-					echo -e "${YELLOW}INFO${NC}: Workspace directory set to $(cat $ROOT_FILE)"
-					exit
+				cd $2
+				echo $(pwd) > $ROOT_FILE
+				echo -e "${YELLOW}INFO${NC}: Workspace directory set to $(cat $ROOT_FILE)"
+				exit
 			;;
 
 			"-s"|"--specific")
@@ -244,4 +244,3 @@ case "$#" in
 		inv_params
 	;;
 esac
-
