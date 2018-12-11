@@ -23,7 +23,7 @@ VERSION='2.4'
 
 #We need the dependencies pre-installed
 function check_installed() {
-	if [ "$(which ${1})" == "" ] && [ ! -f "/bin/${1}" ]; then
+	if [ "$(which ${1})" = "" ] && [ ! -f "/bin/${1}" ]; then
     	echo -e "${RED}FATAL ERROR${NC}: ${1^} executable not found."; exit
 	fi
 }
@@ -92,7 +92,7 @@ case "$#" in
 			;;
 
 			"-u"|"--update")
-				if [ ! "$(curl -s https://uditkarode.github.io/ucc/version)" == ${VERSION} ]; then
+				if [ ! "$(curl -s https://uditkarode.github.io/ucc/version)" = ${VERSION} ]; then
 					if [ "$EUID" -ne 0 ]; then
 						echo -e "${YELLOW}INFO: The update function needs superuser privileges.${NC}"
 						sudo echo "Superuser privileges granted."
@@ -177,7 +177,7 @@ case "$#" in
 					mkdir $root/.UCC/TMPBUILDS
 					cp $root/sources/$2 $root/.UCC/src.cpp
 					SDL_VIDEODRIVER='dummy' dosbox -c MOUNT\ C\ "$root" -c C: -c cd\ BIN -c tcc\ -n..\\.UCC\\TMPBUI~1\\\ ..\\.UCC\\src.cpp\ GRAPHICS.LIB\>..\\logs\\TCC.LOG -c exit > $root/logs/UCC-BUILD.LOG
-					if [ "$(ls $root/.UCC/TMPBUILDS)" == "" ]; then
+					if [ "$(ls $root/.UCC/TMPBUILDS)" = "" ]; then
 						build='failed'
 						echo -e "${RED}!! build failed !!${NC}"
 						echo
@@ -192,7 +192,7 @@ case "$#" in
 						mv $root/.UCC/TMPBUILDS/*.EXE $root/builds/$2.EXE>&-
 						echo "	~ Built with UCC ~" >> $root/logs/TCC.LOG
 			
-						if [ ! "$(cat $root/logs/TCC.LOG | grep 'Warning')"  == "" ]; then
+						if [ ! "$(cat $root/logs/TCC.LOG | grep 'Warning')"  = "" ]; then
 							grep '^Warning' $root/logs/TCC.LOG > $root/.ucc/.__warnings
 							echo -e "${YELLOW}INFO: Compiler warning(s) found in build: ${RED}"
 							echo
@@ -203,7 +203,7 @@ case "$#" in
 					
 					rm -r $root/.UCC
 					
-					if [ "$1" == "-br" ] && [ "$build" == "successful" ]; then
+					if [ "$1" = "-br" ] && [ "$build" = "successful" ]; then
 						echo -e "${YELLOW}INFO: build-run flag detected, running $2"".EXE${NC}"
 						ucc --run "$2"".EXE"
 					fi
