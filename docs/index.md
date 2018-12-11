@@ -1,4 +1,4 @@
-# Udit's Compiler Collection
+# Udit's Compiler (and) Collection
 
 ##### This was built for the students of schools/colleges that still use TurboC++ and teach it's archaic code samples, and ask its students to use the same. In order to use this, you need a Linux/Unix based system that can run DosBox. If you use Linux/Unix, you must have DosBox, wget and curl preinstalled on your system. It is not mandatory to run this script as a user with superuser privileges, but it is necessary for the user running the script to have access to the entirety of the required assets.
 
