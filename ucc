@@ -97,12 +97,15 @@ case "$#" in
 						echo -e "${YELLOW}INFO: The update function needs superuser privileges.${NC}"
 						sudo echo "Superuser privileges granted."
 					fi
-					cd /tmp
+					
 					if [ -f "/tmp/ucc" ]; then
 						sudo rm /tmp/ucc
 					fi
+					
+					cd /tmp
 					sudo wget -q https://raw.githubusercontent.com/uditkarode/ucc/master/ucc
-				if [ -f "/tmp/ucc" ]; then
+					
+					if [ -f "/tmp/ucc" ]; then
 						echo;
 						echo -e "${GREEN}Update successful!${NC}"
 						echo
@@ -111,6 +114,7 @@ case "$#" in
 					else
 						echo -e "${RED}Update failed! Check your internet connection.${NC}"
 					fi
+					
 				else
 					echo -e "${GREEN}You are already on the latest version of UCC.${NC}"
 				fi
@@ -159,13 +163,13 @@ case "$#" in
 
 			"-sr"|"--specific-run")
 				check_ws_defined
-                if [ -f "$2" ]; then
-                	cp ${2} ${root}/sources/SPECIFIC-${2}
-                	ucc -br SPECIFIC-${2}
+                		if [ -f "$2" ]; then
+                			cp ${2} ${root}/sources/SPECIFIC-${2}
+                			ucc -br SPECIFIC-${2}
 					rm ${root}/sources/SPECIFIC-${2}
-                else
-                    echo -e "${RED}FATAL ERROR${NC}: $(pwd)/${2} does not exist!"
-                fi
+               			else
+                    			echo -e "${RED}FATAL ERROR${NC}: $(pwd)/${2} does not exist!"
+                		fi
 			;;
 
 			"-b"|"--build"|"-br"|"--build-run")
@@ -216,21 +220,21 @@ case "$#" in
 			"-r"|"--run")
 				check_ws_defined
 				if [ -f "$root/builds/$2" ]; then
-						cp $root/builds/$2 $root/files/$2
-						cp $root/BIN/EGAVGA.BGI $root/files/
-						tmpstr=${2%%.*}
-						suffix="~1"
-						if(( ${#2} > 6 )); then
-							dosname="${tmpstr:0:6}"
-							dosname="${dosname}${suffix}"
-						else
-							dosname="$tmpstr"
-						fi
-						echo -e "${YELLOW}INFO: Executing DOS file $dosname${NC}"
-						dosbox -c MOUNT\ C\ "$root/files/" -c C: -c $dosname -c exit > $root/logs/UCC-RUN.LOG
-						rm $root/files/$2 $root/files/EGAVGA.BGI
+					cp $root/builds/$2 $root/files/$2
+					cp $root/BIN/EGAVGA.BGI $root/files/
+					tmpstr=${2%%.*}
+					suffix="~1"
+					if(( ${#2} > 6 )); then
+						dosname="${tmpstr:0:6}"
+						dosname="${dosname}${suffix}"
 					else
-						echo -e "${RED}FATAL ERROR${NC}: The file '$root/builds/$2' does not exist!"
+						dosname="$tmpstr"
+					fi
+					echo -e "${YELLOW}INFO: Executing DOS file $dosname${NC}"
+					dosbox -c MOUNT\ C\ "$root/files/" -c C: -c $dosname -c exit > $root/logs/UCC-RUN.LOG
+					rm $root/files/$2 $root/files/EGAVGA.BGI
+				else
+					echo -e "${RED}FATAL ERROR${NC}: The file '$root/builds/$2' does not exist!"
 				fi
 			;;
 
