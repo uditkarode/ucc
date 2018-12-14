@@ -19,7 +19,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m'
 ROOT_FILE=~/.__ucc_ws
-VERSION='2.4'
+VERSION='2.5'
 
 #We need the dependencies pre-installed
 function check_installed() {
@@ -124,7 +124,8 @@ case "$#" in
 				echo -e "${YELLOW}INFO: This will initiate a UCC workspace in the current directory."
 				echo -e "${NC}Continue? (${GREEN}yes${NC}/${RED}no${NC})" ; read userconf
 
-				if [ "$userconf" != "yes" ]; then
+				if [ "$userconf" != "yes" ] && [ "$userconf" != "y" ]; then
+					echo "${RED}Aborting.${NC}"
 					exit
 				fi
 
