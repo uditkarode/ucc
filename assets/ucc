@@ -99,7 +99,7 @@ case "$#" in
 				cp $root/builds/$2 $root/files/RUN.EXE
 				cp $root/BIN/EGAVGA.BGI $root/files/
 				echo -e "INFO: Executing DOS file $2"
-				$root/assets/dosbox -noconsole -c MOUNT\ C\ "$root" -c C: -c cd\ files -c RUN -c exit
+				$root/assets/dosbox -noconsole -c MOUNT\ C\ \"${root}\" -c C: -c cd\ files -c RUN -c exit
 				rm $root/files/RUN.EXE
 				rm $root/files/EGAVGA.BGI
 			;;
