@@ -68,7 +68,7 @@ function inv_params() {
 	echo -e "${RED}Invalid parameters${NC}. Use the flag ${GREEN}--help${NC} for usage instructions."
 }
 
-check_installed dosbox ; check_installed wget ; check_installed curl
+check_installed dosbox
 
 #Parse the arguments
 case "$#" in
@@ -93,6 +93,7 @@ case "$#" in
 			;;
 
 			"-u"|"--update")
+				check_installed wget ; check_installed curl
 				if [ ! "$(curl -s https://uditkarode.github.io/ucc/version)" = ${VERSION} ]; then
 					if [ "$EUID" -ne 0 ]; then
 						echo -e "${YELLOW}INFO: The update function needs superuser privileges.${NC}"
@@ -122,6 +123,7 @@ case "$#" in
 			;;
 
 			"-i"|"--init"|"init")
+				check_installed git
 				echo -e "${YELLOW}INFO: This will initiate a UCC workspace in the current directory."
 				echo -e "${NC}Continue? (${GREEN}yes${NC}/${RED}no${NC})" ; read userconf
 
