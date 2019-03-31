@@ -20,7 +20,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m'
 ROOT_FILE=~/.__ucc_ws
-VERSION='2.7'
+VERSION='2.8'
 
 #We need the dependencies pre-installed
 function check_installed() {
@@ -250,6 +250,12 @@ case "$#" in
 				else
 					echo -e "${RED}ERROR: The file '$root/sources/${2}.cpp' already exists!${NC}"
 				fi
+			;;
+
+			"-e"|"--edit-run")
+				check_ws_defined
+				vim $2.cpp
+				ucc -br $2.cpp
 			;;
 
 			*)
