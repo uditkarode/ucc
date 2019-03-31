@@ -20,12 +20,12 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m'
 ROOT_FILE=~/.__ucc_ws
-VERSION='2.6'
+VERSION='2.7'
 
 #We need the dependencies pre-installed
 function check_installed() {
 	if [ -z "$(which ${1})" ] && [ ! -f "/bin/${1}" ]; then
-    		echo -e "${RED}FATAL ERROR${NC}: ${1^} executable not found."; exit
+    		echo -e "${RED}FATAL ERROR${NC}: ${1} executable not found."; exit
 	fi
 }
 
@@ -239,6 +239,16 @@ case "$#" in
 					rm $root/files/$2 $root/files/EGAVGA.BGI
 				else
 					echo -e "${RED}FATAL ERROR${NC}: The file '$root/builds/$2' does not exist!"
+				fi
+			;;
+
+			"-p"|"--boilerplate")
+				check_ws_defined
+				if [ ! -f "$root/sources/${2}.cpp" ]; then
+					wget https://raw.githubusercontent.com/uditkarode/ucc/master/boilerplate -O $root/sources/${2}.cpp
+					echo -e "${YELLOW}INFO: Boilerplate-added cpp file added as: $root/sources/${2}.cpp${NC}"
+				else
+					echo -e "${RED}ERROR: The file '$root/sources/${2}.cpp' already exists!${NC}"
 				fi
 			;;
 
