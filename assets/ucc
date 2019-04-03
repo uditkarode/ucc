@@ -16,6 +16,7 @@
 
 VERSION=1.0 #stable-eol
 cd ..
+root="$(./assets/pwd)"
 
 #For Microsoft Windows 7 or below
 #root="  <PATH TO ACTUAL WORKSPACE FOLDER>  "
