@@ -51,14 +51,16 @@ function show_help(){
 	echo -e "${GREEN}-i/--init/init ${YELLOW} <folder-path>${NC} : Initiates a UCC workspace at the provided folder path. This does ${RED}NOT${NC} also automatically make it the workspace."
 	echo
 	echo -e "${GREEN}-s/--specific ${YELLOW}<filename>${NC} : Builds the filename from the directory of execution."
-    	echo
+    echo
 	echo -e "${GREEN}-sr/--specific-run ${YELLOW}<filename>${NC} : Builds the filename from the directory of execution, and if successful, runs the build seamlessly."
-    	echo
+    echo
 	echo -e "${GREEN}-w/--workspace ${YELLOW}<folder-path>${NC} : Sets the workspace directory of UCC"
-    	echo
+    echo
 	echo -e "${GREEN}-v/--version${NC} : Prints the installed version of UCC."
 	echo
-	echo -e "${GREEN}-u/--update${NC} : Updates UCC if a new version is available."
+	echo -e "${GREEN}-p/--boilerplate ${YELLOW}<filename without .cpp>${NC} : Creates ${YELLOW}<filename>${NC}.cpp with the basic header files included and a main function with always-required code."
+	echo
+	echo -e "${GREEN}-e/--edit-run ${YELLOW}<filename without .cpp>${NC} : Opens ${YELLOW}<filename>${NC}.cpp in vim and runs it as soon as you exit vim."
 	echo
 	exit
 }
