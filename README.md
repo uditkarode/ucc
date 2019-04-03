@@ -1,6 +1,6 @@
 # UCC
 
-##### This was built for the students of schools/colleges that still use TurboC++ and teach it's archaic code samples, and ask its students to use the same. You no longer need to torture your eyes that ugly blue pixelated IDE anymore, and the codes youu write will be exactly same as TurboC! No 'using namespace std;' stuff required!
+##### This was built for the students of schools/colleges that still use TurboC++ and teach it's archaic code samples, and ask its students to use the same. You no longer need to torture your eyes by using that ugly blue and old pixelated IDE anymore, and the codes you write will be exactly same as TurboC++! No 'using namespace std;' stuff required!
 
 *NOTE: This can compile and run both C and C++ codes and has FULL support for the graphics library.*
 *NOTE: a UCC workspace is a folder that contains all your working files and folders for UCC. Make sure you don't use the folder for anything else.*
