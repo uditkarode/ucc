@@ -32,7 +32,7 @@ function inv_params(){
 
 function check_exists(){
 	if [ ! -f "$1" ]; then
-		echo -e "\nFATAL ERROR: File not found!\n"
+		echo -e "\nFATAL ERROR: File $1 not found!\n"
 		read
 		exit
 	fi
@@ -108,8 +108,8 @@ case "$#" in
 			;;
 			
 			"-b"|"--build"|"-br")
-				echo "Compiling and linking $2..."
 				check_exists "$root/sources/$2"
+				echo "Compiling and linking $2..."
 				mkdir $root/.UCC
 				mkdir $root/.UCC/TMPBUILDS
 				cp $root/sources/$2 $root/.UCC/src.cpp
