@@ -60,7 +60,7 @@ case "$#" in
 				if [ -f "$root/sources/${fn}.txt" ]; then
 					mv $root/sources/${fn}.txt $root/sources/${fn}
 				fi
-				check_exists $root/sources/${fn}
+				check_exists "$root/sources/${fn}"
 				cd assets
 				./ucc --build $fn
 			;;
@@ -68,7 +68,7 @@ case "$#" in
 			"-gr")
 				echo -e "\nEnter the filename to run:\n"
 				read fn
-				check_exists $root/builds/${fn}
+				check_exists "$root/builds/${fn}"
 				cd $root/assets
 				./ucc --run $fn
 			;;
@@ -79,7 +79,7 @@ case "$#" in
 				if [ -f "$root/sources/${fn}.txt" ]; then
 					mv $root/sources/${fn}.txt $root/sources/${fn}
 				fi
-				check_exists $root/sources/${fn}
+				check_exists "$root/sources/${fn}"
 				cd assets
 				./ucc -br $fn
 			;;
@@ -97,7 +97,7 @@ case "$#" in
 	"2")
 		case "$1" in
 			"--run")
-				check_exists $root/builds/${2}
+				check_exists "$root/builds/${2}"
 				cp $root/builds/$2 $root/files/RUN.EXE
 				cp $root/BIN/EGAVGA.BGI $root/files/
 				echo -e "INFO: Executing DOS file $2"
@@ -107,7 +107,8 @@ case "$#" in
 			;;
 			
 			"-b"|"--build"|"-br")
-				echo
+				echo "Compiling and linking $2..."
+				check_exists "$root/sources/$2"
 				mkdir $root/.UCC
 				mkdir $root/.UCC/TMPBUILDS
 				cp $root/sources/$2 $root/.UCC/src.cpp
