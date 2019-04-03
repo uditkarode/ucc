@@ -33,6 +33,7 @@ function inv_params(){
 function check_exists(){
 	if [ ! -f "$1" ]; then
 		echo -e "\nFATAL ERROR: File not found!\n"
+		read
 		exit
 	fi
 }
