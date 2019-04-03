@@ -1,6 +1,9 @@
-# Udit's Compiler Collection
+# UCC
 
-##### This was built for the students of schools/colleges that still use TurboC++ and teach it's archaic code samples, and ask its students to use the same. In order to use this, you need a Linux/Unix based system that can run DosBox. If you use Linux/Unix, you must have DosBox, wget and curl preinstalled on your system. It is not mandatory to run this script as a user with superuser privileges, but it is necessary for the user running the script to have access to the entirety of the required assets.
+##### This was built for the students of schools/colleges that still use TurboC++ and teach it's archaic code samples, and ask its students to use the same. You no longer need to torture your eyes that ugly blue pixelated IDE anymore, and the codes youu write will be exactly same as TurboC! No 'using namespace std;' stuff required!
+
+*NOTE: This can compile and run both C and C++ codes and has FULL support for the graphics library.*
+*NOTE: a UCC workspace is a folder that contains all your working files and folders for UCC. Make sure you don't use the folder for anything else.*
 
 #### Common Instructions:
 *EVERY* valid UCC Workspace will contain these folders:
@@ -11,16 +14,20 @@
 - `headers/` (this will contain your custom header files)
 
 #### WINDOWS:
-Since most of Windows users do not have git, I zipped the files of the `windows` branch and added it to this repo. Instead of downloading the zip file, you can also clone the `windows` branch.
+To use UCC on Windows, download https://github.com/uditkarode/ucc/raw/windows/ucc-windows.zip
 
-To install UCC for Windows, download https://uditkarode.github.io/ucc/ucc-windows.zip.
-
-Wherever you extract this will be your workspace.
+Now, make a new folder somewhere, and extract the zip inside it.
 
 After extraction, **you must run** `UCC-INIT.bat`. The file will set up the directory and automatically remove itself.
 
+After this step, you **must** place your source codes in the sources/ directory.
+
 You can now use `UCC-BUILD.bat`, `UCC-RUN.bat`, or `UCC-BUILD-RUN.bat` to compile, run, or compile and seamlessly run respectively.
 
+This has been tested working on Windows 10.
+
+
+*For advanced users:*
 If you prefer direct command line usage, you can change directory to the assets folder and use ucc this way:
 ```bash
 bash ucc --build abc.cpp
@@ -31,21 +38,11 @@ bash ucc --run abc.cpp.EXE
 bash ucc -br abc.cpp
 ```
 
-After executing UCC-INIT, you will have the five directories. You know what to do next.
-
 #### *NIX:
 
-###### MANUAL METHOD:
-To get started, create a directory anywhere on your disk, which will be your workplace. Let's call it the **workspace**. Add the *BIN* folder from this repository into your *workspace*. Also, inside the workspace, create the five directories mentioned above.
-
-Now, set the complete location of the *workspace*, as such:
-
-```bash
-ucc --workspace /Users/udit/myProjects
-```
 ###### SCRIPT METHOD:
 
-##### These commands below will do the heavylifting for you. You can copy and paste them to your terminal directly. Input 'yes' if asked. After executing them, your workspace will be ~/UCCRoot :
+##### The commands below will do the heavylifting for you. You can copy and paste them to your terminal directly. After executing them, your workspace will be ~/UCCRoot :
 
 ```bash
 cd ~
@@ -57,6 +54,8 @@ mkdir builds sources logs files headers
 rm -rf ~/ucc
 ucc --workspace .
 ```
+
+You can now place your source code in the ~/UCCRoot/sources directory.
 
 After setting up UCC, you can compile and run your programs with a command as simple as `ucc -br program.cpp`!
 
