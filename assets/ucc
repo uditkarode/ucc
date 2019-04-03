@@ -110,7 +110,9 @@ case "$#" in
 			
 			"-b"|"--build"|"-br")
 				check_exists "$root/sources/$2"
+				echo
 				echo "Compiling and linking $2..."
+				echo
 				mkdir $root/.UCC
 				mkdir $root/.UCC/TMPBUILDS
 				cp $root/sources/$2 $root/.UCC/src.cpp
