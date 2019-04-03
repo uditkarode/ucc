@@ -14,7 +14,7 @@
 - `headers/` (this will contain your custom header files)
 
 #### WINDOWS:
-To install UCC for Windows, download https://uditkarode.github.io/ucc/ucc-windows.zip.
+To use UCC on Windows, download https://github.com/uditkarode/ucc/raw/windows/ucc-windows.zip
 
 Now, make a new folder somewhere, and extract the zip inside it.
 
@@ -23,6 +23,8 @@ After extraction, **you must run** `UCC-INIT.bat`. The file will set up the dire
 After this step, you **must** place your source codes in the sources/ directory.
 
 You can now use `UCC-BUILD.bat`, `UCC-RUN.bat`, or `UCC-BUILD-RUN.bat` to compile, run, or compile and seamlessly run respectively.
+
+This has been tested working on Windows 10.
 
 
 *For advanced users:*
