@@ -138,6 +138,7 @@ case "$#" in
 				mv ucc/BIN .
 				rm -rf ucc
 				mkdir builds logs files sources headers
+				ucc --workspace .
 				echo -e "${GREEN}Folder is ready for use as workspace!${NC}"
 			;;
 
