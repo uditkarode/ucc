@@ -247,6 +247,7 @@ case "$#" in
 
 			"-p"|"--boilerplate")
 				check_ws_defined
+				check_installed wget
 				if [ ! -f "$root/sources/${2}.cpp" ]; then
 					wget https://raw.githubusercontent.com/uditkarode/ucc/master/boilerplate -O $root/sources/${2}.cpp
 					echo -e "${YELLOW}INFO: Boilerplate-added cpp file added as: $root/sources/${2}.cpp${NC}"
