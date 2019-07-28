@@ -1,7 +1,6 @@
 #!/bin/bash
 
 #   Copyright 2018 Udit Karode
-#   Debugging Partner: Amritanshu Sikdar
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -39,7 +38,6 @@ function check_ws_defined() {
 	fi
 }
 
-#Instructions on how to use this wonderful tool :D
 function show_help(){
     	echo -e "Usage: ucc [option] [argument]\n"
 	echo -e "${GREEN}-b/--build ${YELLOW}<filename>${NC} : Builds the file $root/sources/<filename>, and places a DOS executable in $root/builds/."
@@ -51,11 +49,11 @@ function show_help(){
 	echo -e "${GREEN}-i/--init/init ${YELLOW} <folder-path>${NC} : Initiates a UCC workspace at the provided folder path. This does ${RED}NOT${NC} also automatically make it the workspace."
 	echo
 	echo -e "${GREEN}-s/--specific ${YELLOW}<filename>${NC} : Builds the filename from the directory of execution."
-    echo
+    	echo
 	echo -e "${GREEN}-sr/--specific-run ${YELLOW}<filename>${NC} : Builds the filename from the directory of execution, and if successful, runs the build seamlessly."
-    echo
+   	echo
 	echo -e "${GREEN}-w/--workspace ${YELLOW}<folder-path>${NC} : Sets the workspace directory of UCC"
-    echo
+   	echo
 	echo -e "${GREEN}-v/--version${NC} : Prints the installed version of UCC."
 	echo
 	echo -e "${GREEN}-p/--boilerplate ${YELLOW}<filename without .cpp>${NC} : Creates ${YELLOW}<filename>${NC}.cpp with the basic header files included and a main function with always-required code."
@@ -65,14 +63,14 @@ function show_help(){
 	exit
 }
 
-#In case the user enters unknown parameters
+
 function inv_params() {
 	echo -e "${RED}Invalid parameters${NC}. Use the flag ${GREEN}--help${NC} for usage instructions."
 }
 
 check_installed dosbox
 
-#Parse the arguments
+
 case "$#" in
 	"0")
 		show_help
