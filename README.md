@@ -44,6 +44,11 @@ bash ucc -br abc.cpp
 
 #### *NIX:
 
+###### ARCH LINUX USERS:
+  
+##### UCC is available on the AUR.  
+`yay/yaourt -S ucc`  
+  
 ###### SCRIPT METHOD:
 
 ##### The commands below will do the heavylifting for you. You can copy and paste them to your terminal directly. After executing them, your workspace will be ~/UCCRoot :
