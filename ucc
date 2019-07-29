@@ -137,6 +137,7 @@ case "$#" in
 				else
 					git clone https://github.com/uditkarode/ucc.git/
 					mv ucc/BIN .
+					cp -r BIN /var/BIN
 					rm -rf ucc
 				fi
 				mkdir builds logs files sources headers
