@@ -131,10 +131,15 @@ case "$#" in
 					echo -e "${RED}Aborting.${NC}"
 					exit
 				fi
-
-				git clone https://github.com/uditkarode/ucc.git/
-				mv ucc/BIN .
-				rm -rf ucc
+				if [ -d "/var/BIN" ]; then
+					echo "Copying BIN from cached /var/cache/BIN"
+					cp -r /var/cache/BIN .
+				else
+					git clone https://github.com/uditkarode/ucc.git/
+					mv ucc/BIN .
+					cp -r BIN /var/cache/
+					rm -rf ucc
+				fi
 				mkdir builds logs files sources headers
 				ucc --workspace .
 				echo -e "${GREEN}Folder is ready for use as workspace!${NC}"
