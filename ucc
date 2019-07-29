@@ -133,7 +133,7 @@ case "$#" in
 				fi
 				if [ -d "/var/BIN" ]; then
 					echo "Copying BIN from cached /var/BIN"
-					cp /var/BIN .
+					cp -r /var/BIN .
 				else
 					git clone https://github.com/uditkarode/ucc.git/
 					mv ucc/BIN .
