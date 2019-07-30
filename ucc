@@ -46,7 +46,7 @@ function show_help(){
 	echo
 	echo -e "${GREEN}-br/--build-run ${YELLOW}<filename>${NC} : Builds the filename from $root/sources, and if successful, runs the build seamlessly."
 	echo
-	echo -e "${GREEN}-i/--init/init ${YELLOW} <folder-path>${NC} : Initiates a UCC workspace at the provided folder path. This does ${RED}NOT${NC} also automatically make it the workspace."
+	echo -e "${GREEN}-i/--init/init ${YELLOW} <folder-path>${NC} : Initiates a UCC workspace at the provided folder path. This also automatically makes it the currently active workspace."
 	echo
 	echo -e "${GREEN}-s/--specific ${YELLOW}<filename>${NC} : Builds the filename from the directory of execution."
     	echo
