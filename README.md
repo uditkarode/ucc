@@ -44,7 +44,7 @@ bash ucc -br abc.cpp
 
 #### *NIX:
 
-###### ARCH LINUX USERS:
+###### ARCH LINUX/MANJARO USERS:
   
 ##### UCC is available on the AUR.  
 `yay/yaourt -S ucc`  
