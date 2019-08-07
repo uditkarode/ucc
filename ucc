@@ -191,7 +191,7 @@ case "$#" in
 					mkdir $root/.UCC
 					mkdir $root/.UCC/TMPBUILDS
 					cp $root/sources/$2 $root/.UCC/src.cpp
-					SDL_VIDEODRIVER='dummy' dosbox -c MOUNT\ C\ "$root" -c C: -c cd\ BIN -c tcc\ -n..\\.UCC\\TMPBUI~1\\\ ..\\.UCC\\src.cpp\ GRAPHICS.LIB\>..\\logs\\TCC.LOG -c exit > $root/logs/UCC-BUILD.LOG
+					SDL_VIDEODRIVER='dummy' dosbox -c MOUNT\ C\ "$root" -c C: -c cd\ BIN -c tcc\ -n..\\.UCC\\TMPBUI~1\\\ ..\\.UCC\\src.cpp\ GRAPHICS.LIB\>..\\logs\\TCC.LOG -c exit > $root/logs/UCC-BUILD.LOG 2>/dev/null
 					if [ -z "$(ls $root/.UCC/TMPBUILDS)" ]; then
 						build='failed'
 						echo -e "${RED}!! build failed !!${NC}"
@@ -242,7 +242,7 @@ case "$#" in
 						dosname="$tmpstr"
 					fi
 					echo -e "${YELLOW}INFO: Executing DOS file $dosname${NC}"
-					dosbox -c MOUNT\ C\ "$root/files/" -c C: -c $dosname -c exit > $root/logs/UCC-RUN.LOG
+					dosbox -c MOUNT\ C\ "$root/files/" -c C: -c $dosname -c exit > $root/logs/UCC-RUN.LOG 2>/dev/null
 					rm $root/files/$2 $root/files/EGAVGA.BGI
 				else
 					echo -e "${RED}FATAL ERROR${NC}: The file '$root/builds/$2' does not exist!"
