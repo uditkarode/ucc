@@ -34,12 +34,12 @@ This has been tested working on Windows 10.
 *For advanced users:*
 If you prefer direct command line usage, you can change directory to the assets folder and use ucc this way:
 ```bash
-bash ucc --build abc.cpp
-bash ucc --run abc.cpp.EXE
+.\bash ucc --build abc.cpp
+.\bash ucc --run abc.cpp.EXE
 
 --OR--
 
-bash ucc -br abc.cpp
+.\bash ucc -br abc.cpp
 ```
 
 #### *NIX:
