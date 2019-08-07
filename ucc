@@ -88,7 +88,8 @@ case "$#" in
 			;;
 
 			"-v"|"--version")
-				echo -e "${YELLOW}INFO: ${NC}UCC v${GREEN}${VERSION}${NC}"
+				echo -e "${YELLOW}INFO: ${NC}UCC v${GREEN}${VERSION}${NC}\n"
+				echo -e "Report bugs at ${GREEN}github.com/uditkarode/ucc/issues${NC}\n"
 				echo -e "  ${YELLOW}╦ ╦╔═╗╔═╗\n  ║ ║║  ║  \n  ╚═╝╚═╝╚═╝${NC}"
 			;;
 
