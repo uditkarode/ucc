@@ -132,7 +132,7 @@ case "$#" in
 					exit
 				fi
 				if [ -d "/var/cache/ucc/BIN" ]; then
-					echo "${YELLOW}INFO${NC}: copying BIN from cached /var/cache/ucc/BIN"
+					echo -e "${YELLOW}INFO${NC}: copying BIN from cached /var/cache/ucc/BIN"
 					cp -r /var/cache/ucc/BIN .
 				else
 					git clone https://github.com/uditkarode/ucc.git/
