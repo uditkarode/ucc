@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#   Copyright 2018 Udit Karode
+#   Copyright 2019 Udit Karode
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -16,10 +16,7 @@
 
 VERSION=1.0 #stable-eol
 cd ..
-root="$(./assets/pwd)"
-
-#For Microsoft Windows 7 or below
-#root="  <PATH TO ACTUAL WORKSPACE FOLDER>  "
+root="$PWD"
 
 function show_help(){
 	echo -e "Usage: ucc [option] [argument]\n"
@@ -48,6 +45,7 @@ case "$#" in
 		case "$1" in
 			"-v"|"--version")
 				echo -e "\nUCC for Windows v${VERSION}\n"
+				echo -e "Report bugs at github.com/uditkarode/ucc/issues"
 			;;
 
 			"-i"|"--init"|"init")
