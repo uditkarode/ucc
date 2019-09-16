@@ -254,7 +254,7 @@ case "$#" in
 				check_ws_defined
 				check_installed wget
 				if [ ! -f "$root/sources/${2}" ]; then
-					wget https://raw.githubusercontent.com/uditkarode/ucc/master/boilerplate`cut -d '.' -f 2 <<< "$2"` -O $root/sources/$2
+					wget https://raw.githubusercontent.com/uditkarode/ucc/master/boilerplate'.'`cut -d '.' -f 2 <<< "$2"` -O $root/sources/$2
 					echo -e "${YELLOW}INFO: File containing boilerplate created at: $root/sources/${2}${NC}"
 				else
 					echo -e "${RED}ERROR: The file '$root/sources/${2}' already exists!${NC}"
