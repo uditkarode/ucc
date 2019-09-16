@@ -20,12 +20,15 @@ root="$PWD"
 
 function show_help(){
 	echo -e "Usage: ucc [option] [argument]\n"
-	echo -e "ucc --build <filename>: builds <filename> from the sources folder.\n"
-	echo -e "ucc --run <filename>: runs <filename> from the builds folder.\n"
+	echo -e "ucc -b/--build <filename>: builds <filename> from the sources folder.\n"
+	echo -e "ucc -r/--run <filename>: runs <filename> from the builds folder.\n"
+	echo -e "ucc -br/--build-run <filename>: builds and runs <filename> from sources folder.\n"
+	echo -e "ucc -cb/--c-boilerplate <filename>: places <filename> in sources folder with C boilerplate.\n"
+	echo -e "ucc -cpb/--cpp-boilerplate <filename>: places <filename> in sources folder with CPP boilerplate.\n"
 }
 
 function inv_params(){
-	echo -e "\nCommand not found. Use flag --help for command list."
+	echo -e "\nCommand not found. Use flag -h/--help for command list."
 }
 
 function check_exists(){
@@ -104,6 +107,22 @@ case "$#" in
 				$root/assets/dosbox -noconsole -c MOUNT\ C\ "$root" -c C: -c cd\ files -c RUN -c exit
 				rm $root/files/RUN.EXE
 				rm $root/files/EGAVGA.BGI
+			;;
+
+			"-cb"|"--c-boilerplate")
+				if [ ! -f "$root/assets/sources/$2" ]; then
+					cp $root/assets/.boilerplate.c "$root/sources/$2"
+				else
+					echo -e "\nFATAL: $root/assets/$2 already exists."
+				fi
+			;;
+
+			"-cpb"|"--cpp-boilerplate")
+				if [ ! -f "$root/assets/sources/$2" ]; then
+					cp $root/assets/.boilerplate.cpp "$root/sources/$2"
+				else
+					echo -e "\nFATAL: $root/assets/$2 already exists."
+				fi
 			;;
 			
 			"-b"|"--build"|"-br")
