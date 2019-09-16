@@ -134,10 +134,10 @@ case "$#" in
 					echo "	~ Built with UCC ~" >> $root/logs/TCC.LOG
 			
 					if [ ! -z "$(cat $root/logs/TCC.LOG | grep 'Warning')" ]; then
-						grep '^Warning' $root/logs/TCC.LOG > $root/.ucc/.__warnings
+						grep '^Warning' $root/logs/TCC.LOG > $root/.UCC/.__warnings
 						echo -e "INFO: Compiler warning(s) found in build: "
 						echo
-						cat $root/.ucc/.__warnings
+						cat $root/.UCC/.__warnings
 					fi
 				fi
 				
