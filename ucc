@@ -136,7 +136,7 @@ case "$#" in
 					echo -e "${YELLOW}INFO${NC}: copying BIN from cached /var/cache/ucc/BIN"
 					cp -r /var/cache/ucc/BIN .
 				else
-					git clone https://github.com/uditkarode/ucc.git/
+					git clone --depth 1 https://github.com/uditkarode/ucc.git
 					mv ucc/BIN .
 					mkdir -p /var/cache/ucc
 					cp -r BIN /var/cache/ucc/
