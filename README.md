@@ -55,7 +55,7 @@ If you prefer direct command line usage, you can change directory to the assets 
 
 ```bash
 cd ~
-git clone https://github.com/uditkarode/ucc.git/
+git clone --depth 1 https://github.com/uditkarode/ucc.git
 sudo mv ucc/ucc /bin/ucc
 sudo chmod +x /bin/ucc
 mkdir UCCRoot && cd UCCRoot
