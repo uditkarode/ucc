@@ -56,7 +56,7 @@ function show_help(){
    	echo
 	echo -e "${GREEN}-v/--version${NC} : Prints the installed version of UCC."
 	echo
-	echo -e "${GREEN}-p/--boilerplate ${YELLOW}<filename without .cpp>${NC} : Creates ${YELLOW}<filename>${NC}.cpp with the basic header files included and a main function with always-required code."
+	echo -e "${GREEN}-p/--boilerplate ${YELLOW}<filename>${NC} : Creates ${YELLOW}<filename>${NC} with the basic header files included and a main function with always-required code."
 	echo
 	echo -e "${GREEN}-e/--edit-run ${YELLOW}<filename>${NC} : Opens ${YELLOW}<filename>${NC} in vim and runs it as soon as you exit vim."
 	echo
@@ -253,11 +253,11 @@ case "$#" in
 			"-p"|"--boilerplate")
 				check_ws_defined
 				check_installed wget
-				if [ ! -f "$root/sources/${2}.cpp" ]; then
-					wget https://raw.githubusercontent.com/uditkarode/ucc/master/boilerplate -O $root/sources/${2}.cpp
-					echo -e "${YELLOW}INFO: Boilerplate-added cpp file added as: $root/sources/${2}.cpp${NC}"
+				if [ ! -f "$root/sources/${2}" ]; then
+					wget https://raw.githubusercontent.com/uditkarode/ucc/master/boilerplate`cut -d '.' -f 2 <<< "$2"` -O $root/sources/$2
+					echo -e "${YELLOW}INFO: File containing boilerplate created at: $root/sources/${2}${NC}"
 				else
-					echo -e "${RED}ERROR: The file '$root/sources/${2}.cpp' already exists!${NC}"
+					echo -e "${RED}ERROR: The file '$root/sources/${2}' already exists!${NC}"
 				fi
 			;;
 
