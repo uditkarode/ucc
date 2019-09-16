@@ -57,6 +57,7 @@ If you prefer direct command line usage, you can change directory to the assets 
 cd ~
 git clone https://github.com/uditkarode/ucc.git/
 sudo mv ucc/ucc /bin/ucc
+sudo chmod +x /bin/ucc
 mkdir UCCRoot && cd UCCRoot
 mv ~/ucc/BIN .
 mkdir builds sources logs files headers
