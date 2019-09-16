@@ -58,7 +58,7 @@ function show_help(){
 	echo
 	echo -e "${GREEN}-p/--boilerplate ${YELLOW}<filename without .cpp>${NC} : Creates ${YELLOW}<filename>${NC}.cpp with the basic header files included and a main function with always-required code."
 	echo
-	echo -e "${GREEN}-e/--edit-run ${YELLOW}<filename without .cpp>${NC} : Opens ${YELLOW}<filename>${NC}.cpp in vim and runs it as soon as you exit vim."
+	echo -e "${GREEN}-e/--edit-run ${YELLOW}<filename>${NC} : Opens ${YELLOW}<filename>${NC} in vim and runs it as soon as you exit vim."
 	echo
 	exit
 }
@@ -263,8 +263,8 @@ case "$#" in
 
 			"-e"|"--edit-run")
 				check_ws_defined
-				vim $2.cpp
-				ucc -br $2.cpp
+				vim $2
+				ucc -br $2
 			;;
 
 			*)
