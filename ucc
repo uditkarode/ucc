@@ -191,8 +191,8 @@ case "$#" in
 					echo
 					mkdir $root/.UCC
 					mkdir $root/.UCC/TMPBUILDS
-					cp $root/sources/$2 $root/.UCC/src.cpp
-					SDL_VIDEODRIVER='dummy' dosbox -c MOUNT\ C\ "$root" -c C: -c cd\ BIN -c tcc\ -n..\\.UCC\\TMPBUI~1\\\ ..\\.UCC\\src.cpp\ GRAPHICS.LIB\>..\\logs\\TCC.LOG -c exit > $root/logs/UCC-BUILD.LOG 2>/dev/null
+					cp $root/sources/$2 $root/.UCC/src.`cut -d '.' -f 2 <<< "$2"`
+					SDL_VIDEODRIVER='dummy' dosbox -c MOUNT\ C\ "$root" -c C: -c cd\ BIN -c tcc\ -n..\\.UCC\\TMPBUI~1\\\ ..\\.UCC\\src.`cut -d '.' -f 2 <<< "$2"`\ GRAPHICS.LIB\>..\\logs\\TCC.LOG -c exit > $root/logs/UCC-BUILD.LOG 2>/dev/null
 					if [ -z "$(ls $root/.UCC/TMPBUILDS)" ]; then
 						build='failed'
 						echo -e "${RED}!! build failed !!${NC}"
