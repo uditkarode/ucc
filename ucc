@@ -219,7 +219,7 @@ case "$#" in
 					
 					rm -r $root/.UCC
 					
-					if [ "$1" = "-br" ] && [ "$build" = "successful" ]; then
+					if [ "$1" = "-br" ] || [ "$1" = "--build-run" ] && [ "$build" = "successful" ]; then
 						echo -e "${YELLOW}INFO: build-run flag detected, running $2"".EXE${NC}"
 						ucc --run "$2"".EXE"
 					fi
