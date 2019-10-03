@@ -64,7 +64,7 @@ case "$#" in
 					mv $root/sources/${fn}.txt $root/sources/${fn}
 				fi
 				check_exists "$root/sources/${fn}"
-				cd assets
+				cd $root/assets
 				./ucc --build $fn
 			;;
 
@@ -83,7 +83,7 @@ case "$#" in
 					mv $root/sources/${fn}.txt $root/sources/${fn}
 				fi
 				check_exists "$root/sources/${fn}"
-				cd assets
+				cd $root/assets
 				./ucc -br $fn
 			;;
 
