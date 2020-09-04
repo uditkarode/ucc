@@ -263,7 +263,7 @@ case "$#" in
 
 			"-e"|"--edit-run")
 				check_ws_defined
-				vim $2
+				vim $root/sources/$2
 				ucc -br $2
 			;;
 
