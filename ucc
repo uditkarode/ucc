@@ -24,7 +24,7 @@ VERSION='3.0'
 #We need the dependencies pre-installed
 function check_installed() {
 	if [ -z "$(which ${1})" ] && [ ! -f "/bin/${1}" ]; then
-    		echo -e "${RED}FATAL ERROR${NC}: ${1} executable not found."; exit
+    		echo -e "${RED}FATAL ERROR${NC}: ${1} executable not found. Please install it!"; exit
 	fi
 }
 
