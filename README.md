@@ -13,7 +13,7 @@
 #### WINDOWS:
 Since most of Windows users do not have git, I zipped the files of the `windows` branch and added it to this repo. Instead of downloading the zip file, you can also clone the `windows` branch.
 
-To install UCC for Windows, download https://uditkarode.github.io/ucc/ucc-windows.zip.
+To install UCC for Windows, download https://github.com/uditkarode/ucc/archive/windows.zip
 
 Wherever you extract this will be your workspace.
 
