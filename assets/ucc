@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#   Copyright 2019 Udit Karode
+#   Copyright 2021 Udit Karode
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -61,7 +61,7 @@ case "$#" in
 				echo -e "\nEnter the filename to compile:\n"
 				read fn
 				if [ -f "$root/sources/${fn}.txt" ]; then
-					mv $root/sources/${fn}.txt $root/sources/${fn}
+					mv "$root/sources/${fn}.txt" "$root/sources/${fn}"
 				fi
 				check_exists "$root/sources/${fn}"
 				cd $root/assets
@@ -72,7 +72,7 @@ case "$#" in
 				echo -e "\nEnter the filename to run:\n"
 				read fn
 				check_exists "$root/builds/${fn}"
-				cd $root/assets
+				cd "$root/assets"
 				./ucc --run $fn
 			;;
 			
@@ -80,10 +80,10 @@ case "$#" in
 				echo -e "\nEnter the filename to compile:\n"
 				read fn
 				if [ -f "$root/sources/${fn}.txt" ]; then
-					mv $root/sources/${fn}.txt $root/sources/${fn}
+					mv "$root/sources/${fn}.txt" "$root/sources/${fn}"
 				fi
 				check_exists "$root/sources/${fn}"
-				cd $root/assets
+				cd "$root/assets"
 				./ucc -br $fn
 			;;
 
@@ -101,17 +101,17 @@ case "$#" in
 		case "$1" in
 			"--run")
 				check_exists "$root/builds/${2}"
-				cp $root/builds/$2 $root/files/RUN.EXE
-				cp $root/BIN/EGAVGA.BGI $root/files/
+				cp "$root/builds/$2" "$root/files/RUN.EXE"
+				cp "$root/BIN/EGAVGA.BGI" "$root/files/"
 				echo -e "INFO: Executing DOS file $2"
-				$root/assets/dosbox -noconsole -c MOUNT\ C\ "$root" -c C: -c cd\ files -c RUN -c exit
-				rm $root/files/RUN.EXE
-				rm $root/files/EGAVGA.BGI
+				"$root/assets/dosbox" -noconsole -c MOUNT\ C\ "$root" -c C: -c cd\ files -c RUN -c exit
+				rm "$root/files/RUN.EXE"
+				rm "$root/files/EGAVGA.BGI"
 			;;
 
 			"-cb"|"--c-boilerplate")
 				if [ ! -f "$root/assets/sources/$2" ]; then
-					cp $root/assets/.boilerplate.c "$root/sources/$2"
+					cp "$root/assets/.boilerplate.c" "$root/sources/$2"
 					echo "C boilerplate added to $root/sources/$2"
 				else
 					echo -e "\nFATAL: $root/assets/$2 already exists."
@@ -120,7 +120,7 @@ case "$#" in
 
 			"-cpb"|"--cpp-boilerplate")
 				if [ ! -f "$root/assets/sources/$2" ]; then
-					cp $root/assets/.boilerplate.cpp "$root/sources/$2"
+					cp "$root/assets/.boilerplate.cpp" "$root/sources/$2"
 					echo "C++ boilerplate added to $root/assets/$2"
 				else
 					echo -e "\nFATAL: $root/assets/$2 already exists."
@@ -132,40 +132,40 @@ case "$#" in
 				echo
 				echo "Compiling and linking $2..."
 				echo
-				mkdir $root/.UCC
-				mkdir $root/.UCC/TMPBUILDS
-				cp $root/sources/$2 $root/.UCC/src.cpp
+				mkdir "$root/.UCC"
+				mkdir "$root/.UCC/TMPBUILDS"
+				cp "$root/sources/$2" "$root/.UCC/src.cpp"
 				export SDL_VIDEODRIVER="dummy"
-				$root/assets/dosbox -noconsole -c MOUNT\ C\ "$root" -c C: -c cd\ BIN -c tcc\ -n..\\.UCC\\TMPBUI~1\\\ ..\\.UCC\\src.cpp\ GRAPHICS.LIB\>..\\logs\\TCC.LOG -c exit
+				"$root/assets/dosbox" -noconsole -c MOUNT\ C\ "$root" -c C: -c cd\ BIN -c tcc\ -n..\\.UCC\\TMPBUI~1\\\ ..\\.UCC\\src.cpp\ GRAPHICS.LIB\>..\\logs\\TCC.LOG -c exit
 				export SDL_VIDEODRIVER="directx"
 				
-				if [ -z "$(ls $root/.UCC/TMPBUILDS)" ]; then
+				if [ -z "$(ls \"$root/.UCC/TMPBUILDS\")" ]; then
 					build='failed'
 					echo -e "\n!! build failed !!"
 					echo
 					echo -e "\nINFO: Printing $root/logs/TCC.LOG\n"
 					echo -e "-------------------------------\n"
-					cat $root/logs/TCC.LOG
+					cat "$root/logs/TCC.LOG"
 					echo -e "\n------------------------------"
 				else
 					build='successful'
 					echo -e "!! build successful !!\n"
 					echo
-					mv $root/.UCC/TMPBUILDS/*.EXE $root/builds/$2.EXE>&-
-					echo "	~ Built with UCC ~" >> $root/logs/TCC.LOG
+					mv "$root/.UCC/TMPBUILDS/*.EXE" "$root/builds/$2.EXE">&-
+					echo "	~ Built with UCC ~" >> "$root/logs/TCC.LOG"
 			
-					if [ ! -z "$(cat $root/logs/TCC.LOG | grep 'Warning')" ]; then
-						grep '^Warning' $root/logs/TCC.LOG > $root/.UCC/.__warnings
+					if [ ! -z "$(cat \"$root/logs/TCC.LOG\" | grep 'Warning')" ]; then
+						grep '^Warning' "$root/logs/TCC.LOG" > "$root/.UCC/.__warnings"
 						echo -e "INFO: Compiler warning(s) found in build: "
 						echo
-						cat $root/.UCC/.__warnings
+						cat "$root/.UCC/.__warnings"
 					fi
 				fi
 				
-				rm -rf $root/.UCC
+				rm -rf "$root/.UCC"
 				if [ "$1" = "-br" ] && [ "$build" = "successful" ]; then
 					echo -e "\nINFO: build-run flag detected, running $fn"".EXE\n"
-					cd $root/assets
+					cd "$root/assets"
 					./ucc --run "$2"".EXE"
 				fi
 			;;
