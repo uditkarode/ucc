@@ -53,7 +53,7 @@ case "$#" in
 
 			"-i"|"--init"|"init")
 				mkdir builds logs files sources headers
-				rm $root/UCC-INIT.bat
+				rm "$root/UCC-INIT.bat"
 				echo -e "\nWorkspace initiated.\n"
 			;;
 
