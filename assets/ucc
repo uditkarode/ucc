@@ -34,7 +34,7 @@ function inv_params(){
 function check_exists(){
 	if [ ! -f "$1" ]; then
 		echo -e "\nFATAL ERROR: File $1 not found!\n"
-		read
+		read -r
 		exit
 	fi
 }
@@ -59,32 +59,32 @@ case "$#" in
 
 			"-gb")
 				echo -e "\nEnter the filename to compile:\n"
-				read fn
+				read -r fn
 				if [ -f "$root/sources/${fn}.txt" ]; then
 					mv "$root/sources/${fn}.txt" "$root/sources/${fn}"
 				fi
 				check_exists "$root/sources/${fn}"
-				cd $root/assets
-				./ucc --build $fn
+				cd "$root/assets" || exit
+				./ucc --build "$fn"
 			;;
 
 			"-gr")
 				echo -e "\nEnter the filename to run:\n"
-				read fn
+				read -r fn
 				check_exists "$root/builds/${fn}"
-				cd "$root/assets"
-				./ucc --run $fn
+				cd "$root/assets" || exit
+				./ucc --run "$fn"
 			;;
 			
 			"-gbr")
 				echo -e "\nEnter the filename to compile:\n"
-				read fn
+				read -r fn
 				if [ -f "$root/sources/${fn}.txt" ]; then
 					mv "$root/sources/${fn}.txt" "$root/sources/${fn}"
 				fi
 				check_exists "$root/sources/${fn}"
-				cd "$root/assets"
-				./ucc -br $fn
+				cd "$root/assets" || exit
+				./ucc -br "$fn"
 			;;
 
 			"-h"|"--help")
@@ -104,7 +104,7 @@ case "$#" in
 				cp "$root/builds/$2" "$root/files/RUN.EXE"
 				cp "$root/BIN/EGAVGA.BGI" "$root/files/"
 				echo -e "INFO: Executing DOS file $2"
-				"$root/assets/dosbox" -noconsole -c MOUNT\ C\ "$root" -c C: -c cd\ files -c RUN -c exit
+				"$root/assets/dosbox" -noconsole -c "MOUNT C \"$root\"" -c "C:" -c "cd files" -c "RUN" -c "exit"
 				rm "$root/files/RUN.EXE"
 				rm "$root/files/EGAVGA.BGI"
 			;;
@@ -136,10 +136,10 @@ case "$#" in
 				mkdir "$root/.UCC/TMPBUILDS"
 				cp "$root/sources/$2" "$root/.UCC/src.cpp"
 				export SDL_VIDEODRIVER="dummy"
-				"$root/assets/dosbox" -noconsole -c MOUNT\ C\ "$root" -c C: -c cd\ BIN -c tcc\ -n..\\.UCC\\TMPBUI~1\\\ ..\\.UCC\\src.cpp\ GRAPHICS.LIB\>..\\logs\\TCC.LOG -c exit
+				"$root/assets/dosbox" -noconsole -c "MOUNT C \"$root\"" -c "C:" -c "cd BIN" -c "tcc -n..\.UCC\TMPBUI~1\ ..\.UCC\src.cpp GRAPHICS.LIB > ..\logs\TCC.LOG" -c "exit"
 				export SDL_VIDEODRIVER="directx"
 				
-				if [ -z "$(ls \"$root/.UCC/TMPBUILDS\")" ]; then
+				if [ -z "$(ls \""$root"/.UCC/TMPBUILDS\")" ]; then
 					build='failed'
 					echo -e "\n!! build failed !!"
 					echo
@@ -154,7 +154,7 @@ case "$#" in
 					mv "$root/.UCC/TMPBUILDS/*.EXE" "$root/builds/$2.EXE">&-
 					echo "	~ Built with UCC ~" >> "$root/logs/TCC.LOG"
 			
-					if [ ! -z "$(cat \"$root/logs/TCC.LOG\" | grep 'Warning')" ]; then
+					if [ -n "$(cat \""$root"/logs/TCC.LOG\" | grep 'Warning')" ]; then
 						grep '^Warning' "$root/logs/TCC.LOG" > "$root/.UCC/.__warnings"
 						echo -e "INFO: Compiler warning(s) found in build: "
 						echo
@@ -165,7 +165,7 @@ case "$#" in
 				rm -rf "$root/.UCC"
 				if [ "$1" = "-br" ] && [ "$build" = "successful" ]; then
 					echo -e "\nINFO: build-run flag detected, running $fn"".EXE\n"
-					cd "$root/assets"
+					cd "$root/assets" || exit
 					./ucc --run "$2"".EXE"
 				fi
 			;;
