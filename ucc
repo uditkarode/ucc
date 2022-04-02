@@ -23,7 +23,7 @@ VERSION='3.0'
 
 #We need the dependencies pre-installed
 function check_installed() {
-	if [ -z "$(which ${1})" ] && [ ! -f "/bin/${1}" ]; then
+	if [ -z "$(which "$1")" ] && [ ! -f "/bin/$1" ]; then
     		echo -e "${RED}FATAL ERROR${NC}: ${1} executable not found. Please install it!"; exit
 	fi
 }
@@ -105,7 +105,7 @@ case "$#" in
 						sudo rm /tmp/ucc
 					fi
 					
-					cd /tmp
+					cd /tmp || exit
 					sudo wget -q https://raw.githubusercontent.com/uditkarode/ucc/master/ucc
 					
 					if [ -f "/tmp/ucc" ]; then
@@ -126,7 +126,7 @@ case "$#" in
 			"-i"|"--init"|"init")
 				check_installed git
 				echo -e "${YELLOW}INFO: This will initiate a UCC workspace in the current directory."
-				echo -e "${NC}Continue? (${GREEN}yes${NC}/${RED}no${NC})" ; read userconf
+				echo -e "${NC}Continue? (${GREEN}yes${NC}/${RED}no${NC})" ; read -r userconf
 
 				if [ "$userconf" != "yes" ] && [ "$userconf" != "y" ]; then
 					echo -e "${RED}Aborting.${NC}"
@@ -158,8 +158,8 @@ case "$#" in
 	"2")
 		case "$1" in
 			"-w"|"--workspace")
-				cd $2
-				echo $(pwd) > $ROOT_FILE
+				cd "$2" || exit
+				pwd > $ROOT_FILE
 				echo -e "${YELLOW}INFO${NC}: Workspace directory set to $(cat $ROOT_FILE)"
 				exit
 			;;
@@ -167,9 +167,9 @@ case "$#" in
 			"-s"|"--specific")
 				check_ws_defined
 				if [ -f "$2" ]; then
-					cp ${2} ${root}/sources/SPECIFIC-${2}
-					ucc -b SPECIFIC-${2}
-					rm ${root}/sources/SPECIFIC-${2}
+					cp "$2" "${root}/sources/SPECIFIC-${2}"
+					ucc -b "SPECIFIC-${2}"
+					rm "${root}/sources/SPECIFIC-${2}"
 				else
 					echo -e "${RED}FATAL ERROR${NC}: $(pwd)/${2} does not exist!"
 				fi
@@ -178,11 +178,11 @@ case "$#" in
 			"-sr"|"--specific-run")
 				check_ws_defined
                 		if [ -f "$2" ]; then
-                			cp ${2} ${root}/sources/SPECIFIC-${2}
-                			ucc -br SPECIFIC-${2}
-					rm ${root}/sources/SPECIFIC-${2}
+                			cp "${2}" "${root}/sources/SPECIFIC-${2}"
+                			ucc -br "SPECIFIC-${2}"
+											rm "${root}/sources/SPECIFIC-${2}"
                			else
-                    			echo -e "${RED}FATAL ERROR${NC}: $(pwd)/${2} does not exist!"
+											echo -e "${RED}FATAL ERROR${NC}: $(pwd)/${2} does not exist!"
                 		fi
 			;;
 
@@ -191,35 +191,36 @@ case "$#" in
 				if [ -f "$root/sources/$2" ]; then
 					echo -e "${YELLOW}INFO: Compiling and linking $2...${NC}"
 					echo
-					mkdir $root/.UCC
-					mkdir $root/.UCC/TMPBUILDS
-					cp $root/sources/$2 $root/.UCC/src.`cut -d '.' -f 2 <<< "$2"`
-					SDL_VIDEODRIVER='dummy' dosbox -c MOUNT\ C\ "$root" -c C: -c cd\ BIN -c tcc\ -n..\\.UCC\\TMPBUI~1\\\ ..\\.UCC\\src.`cut -d '.' -f 2 <<< "$2"`\ GRAPHICS.LIB\>..\\logs\\TCC.LOG -c exit > $root/logs/UCC-BUILD.LOG 2>/dev/null
-					if [ -z "$(ls $root/.UCC/TMPBUILDS)" ]; then
+					mkdir "$root/.UCC"
+					mkdir "$root/.UCC/TMPBUILDS"
+					cp "$root/sources/$2" "$root/.UCC/src.$(cut -d '.' -f 2 <<< "$2")"
+					
+					SDL_VIDEODRIVER='dummy' dosbox -c "MOUNT C \"$root\"" -c "C:" -c "cd BIN" -c "tcc -n..\.UCC\TMPBUI~1\ ..\.UCC\src.`cut -d '.' -f 2 <<< "$2"` GRAPHICS.LIB > ..\logs\TCC.LOG" -c "exit" > "$root/logs/UCC-BUILD.LOG" 2>/dev/null
+					if [ -z "$(ls "$root/.UCC/TMPBUILDS")" ]; then
 						build='failed'
 						echo -e "${RED}!! build failed !!${NC}"
 						echo
 						echo -e "${YELLOW}INFO: Printing $root/logs/TCC.LOG${NC}"
 						echo -e "${YELLOW}-------------------------------${NC}"
-						cat $root/logs/TCC.LOG | grep -vE "Borland International|Available memory|^[[:space:]]*$"
+						cat "$root/logs/TCC.LOG" | grep -vE "Borland International|Available memory|^[[:space:]]*$"
 						echo -e "${YELLOW}-------------------------------${NC}"
 					else
 						build='successful'
 						echo -e "${GREEN}!! build successful !!${NC}"
 						echo
-						mv $root/.UCC/TMPBUILDS/*.EXE $root/builds/$2.EXE>&-
-						echo "	~ Built with UCC ~" >> $root/logs/TCC.LOG
+						mv "$root"/.UCC/TMPBUILDS/*.EXE "$root/builds/$2.EXE">&-
+						echo "	~ Built with UCC ~" >> "$root/logs/TCC.LOG"
 			
-						if [ ! -z "$(cat $root/logs/TCC.LOG | grep 'Warning')" ]; then
-							grep '^Warning' $root/logs/TCC.LOG > $root/.UCC/.__warnings
+						if [ -n "$(cat "$root"/logs/TCC.LOG | grep 'Warning')" ]; then
+							grep '^Warning' "$root/logs/TCC.LOG" > "$root/.UCC/.__warnings"
 							echo -e "${YELLOW}INFO: Compiler warning(s) found in build: ${RED}"
 							echo
-							cat $root/.UCC/.__warnings
+							cat "$root/.UCC/.__warnings"
 							echo -e "${NC}"
 						fi
 					fi
 					
-					rm -r $root/.UCC
+					rm -r "$root/.UCC"
 					
 					if [ "$1" = "-br" ] || [ "$1" = "--build-run" ] && [ "$build" = "successful" ]; then
 						echo -e "${YELLOW}INFO: build-run flag detected, running $2"".EXE${NC}"
@@ -234,8 +235,8 @@ case "$#" in
 			"-r"|"--run")
 				check_ws_defined
 				if [ -f "$root/builds/$2" ]; then
-					cp $root/builds/$2 $root/files/$2
-					cp $root/BIN/EGAVGA.BGI $root/files/
+					cp "$root"/builds/"$2" "$root"/files/"$2"
+					cp "$root"/BIN/EGAVGA.BGI "$root"/files/
 					tmpstr=${2%%.*}
 					suffix="~1"
 					if(( ${#2} > 6 )); then
@@ -245,8 +246,8 @@ case "$#" in
 						dosname="$tmpstr"
 					fi
 					echo -e "${YELLOW}INFO: Executing DOS file $dosname${NC}"
-					dosbox -c MOUNT\ C\ "$root/files/" -c C: -c $dosname -c exit > $root/logs/UCC-RUN.LOG 2>/dev/null
-					rm $root/files/$2 $root/files/EGAVGA.BGI
+					dosbox -c "MOUNT C \"$root/files\"" -c C: -c "$dosname" -c "exit" > "$root"/logs/UCC-RUN.LOG 2>/dev/null
+					rm "$root/files/$2" "$root/files/EGAVGA.BGI"
 				else
 					echo -e "${RED}FATAL ERROR${NC}: The file '$root/builds/$2' does not exist!"
 				fi
@@ -256,7 +257,7 @@ case "$#" in
 				check_ws_defined
 				check_installed wget
 				if [ ! -f "$root/sources/${2}" ]; then
-					wget https://raw.githubusercontent.com/uditkarode/ucc/master/boilerplate'.'`cut -d '.' -f 2 <<< "$2"` -O $root/sources/$2
+					wget https://raw.githubusercontent.com/uditkarode/ucc/master/boilerplate'.'"$(cut -d '.' -f 2 <<< "$2")" -O "$root/sources/$2"
 					echo -e "${YELLOW}INFO: File containing boilerplate created at: $root/sources/${2}${NC}"
 				else
 					echo -e "${RED}ERROR: The file '$root/sources/${2}' already exists!${NC}"
@@ -265,8 +266,8 @@ case "$#" in
 
 			"-e"|"--edit-run")
 				check_ws_defined
-				vim $root/sources/$2
-				ucc -br $2
+				vim "$root/sources/$2"
+				ucc -br "$2"
 			;;
 
 			*)
