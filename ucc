@@ -138,8 +138,10 @@ case "$#" in
 				else
 					git clone --depth 1 https://github.com/uditkarode/ucc.git
 					mv ucc/BIN .
-					mkdir -p /var/cache/ucc
-					cp -r BIN /var/cache/ucc/
+					if [ ! -d "/var/cache" ]; then
+						sudo mkdir -p /var/cache/ucc
+						sudo cp -r BIN /var/cache/ucc/
+					fi
 					rm -rf ucc
 				fi
 				mkdir builds logs files sources headers
