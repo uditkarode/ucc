@@ -195,7 +195,7 @@ case "$#" in
 					mkdir "$root/.UCC/TMPBUILDS"
 					cp "$root/sources/$2" "$root/.UCC/src.$(cut -d '.' -f 2 <<< "$2")"
 					
-					SDL_VIDEODRIVER='dummy' dosbox -c "MOUNT C \"$root\"" -c "C:" -c "cd BIN" -c "tcc -n..\.UCC\TMPBUI~1\ ..\.UCC\src.`cut -d '.' -f 2 <<< "$2"` GRAPHICS.LIB > ..\logs\TCC.LOG" -c "exit" > "$root/logs/UCC-BUILD.LOG" 2>/dev/null
+					SDL_VIDEODRIVER='dummy' dosbox -c "MOUNT C \"$root\"" -c "C:" -c "cd BIN" -c "tcc -mh -n..\.UCC\TMPBUI~1\ ..\.UCC\src.`cut -d '.' -f 2 <<< "$2"` GRAPHICS.LIB > ..\logs\TCC.LOG" -c "exit" > "$root/logs/UCC-BUILD.LOG" 2>/dev/null
 					if [ -z "$(ls "$root/.UCC/TMPBUILDS")" ]; then
 						build='failed'
 						echo -e "${RED}!! build failed !!${NC}"
