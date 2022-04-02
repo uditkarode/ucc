@@ -139,7 +139,7 @@ case "$#" in
 				"$root/assets/dosbox" -noconsole -c "MOUNT C \"$root\"" -c "C:" -c "cd BIN" -c "tcc -n..\.UCC\TMPBUI~1\ ..\.UCC\src.cpp GRAPHICS.LIB > ..\logs\TCC.LOG" -c "exit"
 				export SDL_VIDEODRIVER="directx"
 				
-				if [ -z "$(ls \""$root"/.UCC/TMPBUILDS\")" ]; then
+				if [ -z "$(ls "$root"/.UCC/TMPBUILDS)" ]; then
 					build='failed'
 					echo -e "\n!! build failed !!"
 					echo
@@ -154,7 +154,7 @@ case "$#" in
 					mv "$root/.UCC/TMPBUILDS/*.EXE" "$root/builds/$2.EXE">&-
 					echo "	~ Built with UCC ~" >> "$root/logs/TCC.LOG"
 			
-					if [ -n "$(cat \""$root"/logs/TCC.LOG\" | grep 'Warning')" ]; then
+					if [ -n "$(cat "$root"/logs/TCC.LOG | grep 'Warning')" ]; then
 						grep '^Warning' "$root/logs/TCC.LOG" > "$root/.UCC/.__warnings"
 						echo -e "INFO: Compiler warning(s) found in build: "
 						echo
