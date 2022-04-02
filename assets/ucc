@@ -136,7 +136,7 @@ case "$#" in
 				mkdir "$root/.UCC/TMPBUILDS"
 				cp "$root/sources/$2" "$root/.UCC/src.cpp"
 				export SDL_VIDEODRIVER="dummy"
-				"$root/assets/dosbox" -noconsole -c "MOUNT C \"$root\"" -c "C:" -c "cd BIN" -c "tcc -n..\.UCC\TMPBUI~1\ ..\.UCC\src.cpp GRAPHICS.LIB > ..\logs\TCC.LOG" -c "exit"
+				"$root/assets/dosbox" -noconsole -c "MOUNT C \"$root\"" -c "C:" -c "cd BIN" -c "tcc -mh -n..\.UCC\TMPBUI~1\ ..\.UCC\src.cpp GRAPHICS.LIB > ..\logs\TCC.LOG" -c "exit"
 				export SDL_VIDEODRIVER="directx"
 				
 				if [ -z "$(ls "$root"/.UCC/TMPBUILDS)" ]; then
