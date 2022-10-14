@@ -18,7 +18,7 @@
 
 Here is a video that guides you on how to install Visual Studio Code (a very good code editor) and use it with UCC: https://www.youtube.com/watch?v=WLkYAsEskq8
 
-To use UCC on Windows, download https://github.com/uditkarode/ucc/raw/windows/ucc-windows.zip
+To use UCC on Windows, download https://github.com/uditkarode/ucc/archive/refs/heads/windows.zip
 
 Now, make a new folder somewhere, and extract the zip inside it.
 
